@@ -50,9 +50,9 @@
           {
             "group": "AI tools",
             "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
+              "stripe/cursor",
+              "stripe/claude-code",
+              "stripe/windsurf"
             ]
           }
         ]
@@ -63,9 +63,9 @@
           {
             "group": "Resources",
             "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
+              "stripe/cursor",
+              "stripe/claude-code",
+              "stripe/windsurf"
             ]
           }
         ]
