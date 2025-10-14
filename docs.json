@@ -50,15 +50,24 @@
           {
             "group": "AI tools",
             "pages": [
-              "stripe/cursor",
-              "stripe/claude-code",
-              "stripe/windsurf"
+              
             ]
           }
         ]
       },
         {
-        "tab": "Developer Resources",
+        "tab": "Platforms & processors",
+        "groups": [
+          {
+            "group": "AI tools",
+            "pages": [
+              
+            ]
+          }
+        ]
+      },
+        {
+        "tab": "Developer resources",
         "groups": [
           {
             "group": "Resources",
