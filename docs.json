@@ -11,21 +11,21 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "Get started",
+        "tab": "Introduction",
         "groups": [
           {
-            "group": "Getting started",
+            "group": "Welcome",
             "pages": [
-              "index",
-              "quickstart",
-              "development"
+              "Overview", 
+              "Checklist"
             ]
           },
           {
-            "group": "Customization",
+            "group": "Resources",
             "pages": [
-              "essentials/settings",
-              "essentials/navigation"
+              "resources/FAQs",
+              "resources/glossary",
+              "resources/tokens-networks" 
             ]
           }
         ]
@@ -34,9 +34,9 @@
         "tab": "Payments",
         "groups": [
           {
-            "group": "Writing content",
+            "group": "Getting started",
             "pages": [
-              "essentials/markdown",
+              "payments/quickstart",
               "essentials/code",
               "essentials/images",
               "essentials/reusable-snippets"
