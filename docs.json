@@ -16,17 +16,11 @@
           {
             "group": "Welcome",
             "pages": [
-              "Overview", 
-              "Checklist"
-            ]
-          },
-          {
-            "group": "Resources",
-            "pages": [
-              "resources/FAQs",
-              "resources/glossary",
-              "resources/tokens-networks" 
-            ]
+              "index",
+              "check-list",
+              "key-terminology"
+                      ]
+            
           }
         ]
       },
@@ -50,24 +44,17 @@
           {
             "group": "Overview",
             "pages": [
-              "stripe/intro", 
+              "stripe/intro",
               "stripe/getstarted"
             ]
           }
         ]
       },
-        {
+      {
         "tab": "Platforms and processors",
-        "groups": [
-          {
-            "group": "AI tools",
-            "pages": [
-              
-            ]
-          }
-        ]
+        "groups": []
       },
-        {
+      {
         "tab": "Developer resources",
         "groups": [
           {
@@ -133,15 +120,15 @@
   },
   "contextual": {
     "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ]
   },
   "footer": {
     "socials": {

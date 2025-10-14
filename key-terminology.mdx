@@ -1,0 +1,26 @@
+---
+title: "Key Terminology"
+description: "Below is a list of key terms "
+---
+
+`Entity`: The platform or merchant that owns the Loop account. By default, the `entity` is a `Merchant`. 
+
+`Merchants`: Child accounts
+
+`Payment Destinations`: Where funds settle - either wallet addresses or bank accounts
+
+`Payment Types`: Tokens and networks an entity/merchant accepts for payment
+
+`Payment Methods`: The wallet/token/network combination an end payer uses
+
+`Payins`: Payments processed by Loop, with these possible statuses:
+
+- `Scheduled` - Payment scheduled for future processing
+- `Pending` - Transaction sent on-chain, awaiting confirmation
+- `Completed` - Transaction confirmed on-chain
+- `Failed` - Transaction failed on-chain
+- `Canceled` - Loop will no longer process this payment
+- `Uncollectible` - Stripe integration only
+- `Draft `- Stripe integration only
+
+`Customers`: End payers whose wallets will be charged
