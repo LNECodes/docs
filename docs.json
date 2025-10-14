@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "Loop Crypto",
   "colors": {
     "primary": "#2f20d4",
     "light": "#07C983",
@@ -48,9 +48,10 @@
         "tab": "Stripe integration",
         "groups": [
           {
-            "group": "AI tools",
+            "group": "Overview",
             "pages": [
-              
+              "stripe/intro", 
+              "stripe/getstarted"
             ]
           }
         ]
@@ -146,9 +147,8 @@
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "x": "https://x.com/loopcrypto_xyz",
+      "linkedin": "https://www.linkedin.com/company/loop-crypto"
     }
   }
 }
