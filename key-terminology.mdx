@@ -1,9 +1,11 @@
 ---
-title: "Key Terminology"
+title: "Key terminology"
 description: "Below is a list of key terms "
 ---
 
-`Entity`: The platform or merchant that owns the Loop account. By default, the `entity` is a `Merchant`. 
+## Loop specific terms
+
+`Entity`: The platform or merchant that owns the Loop account. By default, the `entity` is a `Merchant`.
 
 `Merchants`: Child accounts
 
@@ -24,3 +26,39 @@ description: "Below is a list of key terms "
 - `Draft `- Stripe integration only
 
 `Customers`: End payers whose wallets will be charged
+
+---
+
+## **Crypto terms explained**
+
+#### **What are EVM-compatible chains?**
+
+Any blockchain that is compatible with Ethereum. There are over 300 chains, including Base, Optimism, Arbitrum, and Polygon. Loop supports any EVM-compatible blockchain, including Solana and Tron. You can find a list [<u>here</u>](https://www.coincarp.com/chainlist/) of all EVM-compatible chains but please reach out if you have any questions.
+
+#### **What are network (chain) IDs?**
+
+Each blockchain has it's own ID that is used so we know where to send the transaction. You can find network IDs [<u>here</u>](https://www.coincarp.com/chainlist/).
+
+#### **What is an ERC-20 token?**
+
+Most, if not all tokens - including stablecoins - on EVM compatible chains are [<u>ERC-20 tokens</u>](https://docs.openzeppelin.com/contracts/3.x/erc20#:~:text=By%20default%2C%20ERC20%20uses%20a,call%20_setupDecimals%20in%20your%20constructor.). Example tokens are USDC, USDT and Dai.
+
+The only tokens that are not ERC-20 are a network's native token (e.g. ETH, SOL, MATIC) and USDT on Ethereum is not fully ERC-20 compliant. However, there are "wrapped" versions of native tokens that convert them into ERC-20 (e.g. wETH, wSol, wMatic).
+
+#### **Are there test chains?**
+
+Yes. Sepolia is the test chain for EVM and Devnet is the test chain for Solana.
+
+To transact on these chains, you will need ETH or SOL for gas and USDC has a payment token. You can get these for free from using faucets.
+
+- ETH Faucets: [<u>Sepolia-Faucet</u>](https://sepolia-faucet.pk910.de/), [<u>Quicknode Sepolia Faucet</u>](https://faucet.quicknode.com/ethereum/sepolia), [<u>Chainlink Sepolia Faucet</u>](https://faucets.chain.link/sepolia)
+- Sol Faucet: [<u>Solana DevNet Faucet</u>](https://faucet.solana.com/)
+- USDC Faucet: [<u>USDC</u>](https://faucet.circle.com/) (has the option to get on both Ethereum and Solana)
+
+---
+
+## Need to get setup with a crypto wallet?
+
+<Card title="Getting a crypto wallet to test" icon="wallet" href="[resources]/walletTesting">
+  
+</Card>
