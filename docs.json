@@ -57,7 +57,7 @@
         ]
       },
         {
-        "tab": "Platforms & processors",
+        "tab": "Platforms and processors",
         "groups": [
           {
             "group": "AI tools",
@@ -73,9 +73,7 @@
           {
             "group": "Resources",
             "pages": [
-              "stripe/cursor",
-              "stripe/claude-code",
-              "stripe/windsurf"
+              "resources/walletTesting"
             ]
           }
         ]
