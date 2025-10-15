@@ -17,8 +17,14 @@
             "group": "Welcome",
             "pages": [
               "index",
-              "architecture",
-              "key-terminology" 
+              "architecture"
+                      ]
+          },
+          {
+            "group": "Resources",
+            "pages": [
+              "key-terminology", 
+              "fiat-countries"
                       ]
           }
         ]

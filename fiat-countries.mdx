@@ -1,0 +1,89 @@
+---
+title: "Supported fiat currencies"
+description: "Loop supports payouts in both crypto and fiat"
+---
+
+Loop works with licensed liquidity providers and financial institutions to offer global currency support in one standardized API.
+
+The steps to setting up fiat settlement are:
+
+1. Configure a `payoutDestination` as `fiat`
+2. Complete KYB or KYC
+3. Attach a bank account
+
+Please note the countries, tokens and networks that Loop currently supports below. Loop charges an additional fee for these off-ramps. Please reach out for pricing.
+
+### **Information to know**
+
+Loop needs to know if the receiving party is a business or individual. If the party is a business, we do not need any additional information as we will use the name provided at entity or merchant creation. If the receiving party is an individual, we will need to know the first and last name.
+
+The response to the create call will include a `kycLink` and the `bankAccountFormLink` for the business or individual to use to provide their supporting documentation and bank account information. Funds cannot be off-ramped until KYB/KYC is passed and a bank account is linked.
+
+You can use the GET payout destination endpoint to query for the `kycStatus` to check if you've been approved.
+
+Loop will immediately create a `walletAddress` that is used to collect payment before the funds are off-ramped. This address is returned in the response and can be used for receiving crypto payments even before fiat off-ramp has been approved. Once approved, funds are off-ramp every 24-hours to the appropriate bank account.
+
+---
+
+# **Fiat currency supported**
+
+| **Country**    | **Currency** |
+| :------------- | :----------- |
+| US             | USD          |
+| Eurozone       | EUR          |
+| Argentina      | ARS          |
+| Bangladesh     | BDT          |
+| Bolivia        | BOB          |
+| Brazil         | BRL          |
+| Canada         | CAD          |
+| Chile          | CLP          |
+| China          | CNY          |
+| Colombia       | COP          |
+| Costa Rica     | CRC          |
+| Czech Republic | CZK          |
+| Denmark        | DKK          |
+| Ecuador        | USD          |
+| Egypt          | EGP          |
+| El Salvador    | USD          |
+| Ghana          | GHS          |
+| Guatemala      | GTQ          |
+| Hong Kong      | HKD          |
+| India          | INR          |
+| Indonesia      | IDR          |
+| Israel         | ILS          |
+| Jordan         | JOD          |
+| Kenya          | KES          |
+| Malaysia       | MYR          |
+| Mexico         | MXN          |
+| Nigeria        | NGN          |
+| Norway         | NOK          |
+| Pakistan       | PKR          |
+| Peru           | PEN          |
+| Philippines    | PHP          |
+| Poland         | PLN          |
+| Qatar          | QAR          |
+| Saudi Arabia   | SAR          |
+| Singapore      | SGD          |
+| South Africa   | ZAR          |
+| Sri Lanka      | LKR          |
+| Sweden         | SEK          |
+| Thailand       | THB          |
+| Turkey         | TRY          |
+| UAE            | AED          |
+| UK             | GBP          |
+| Vietnam        | VND          |
+
+---
+
+# **Cryptocurrency support**
+
+| **Network Name**      | **Supported Cryptocurrencies** |
+| :-------------------- | :----------------------------- |
+| Arbitrum One          | USDC, USDT, ETH, ERC-20s       |
+| Base                  | USDC, USDT, ETH, ERC-20s       |
+| Ethereum Mainnet      | USDC, USDT, ETH, ERC-20s       |
+| OP Mainnet            | USDC, USDT, ETH, ERC-20s       |
+| Polygon Mainnet       | USDC, USDT, ETH, ERC-20s       |
+| Solana                | USDC, USDT, SOL                |
+| Tron (coming soon)    | USDT                           |
+| Bitcoin (coming soon) | BTC                            |
