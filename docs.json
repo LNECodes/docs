@@ -16,16 +16,10 @@
           {
             "group": "Welcome",
             "pages": [
-              "index",
-              "architecture"
-                      ]
-          },
-          {
-            "group": "Resources",
-            "pages": [
+              "index", 
               "key-terminology", 
               "fiat-countries"
-                      ]
+            ]
           }
         ]
       },
@@ -69,6 +63,13 @@
       {
         "tab": "Developer resources",
         "groups": [
+          {
+            "group": "Overview",
+            "pages": [
+              "resources/architecture", 
+              "resources/component-library" 
+            ]
+          }, 
           {
             "group": "Resources",
             "pages": [
