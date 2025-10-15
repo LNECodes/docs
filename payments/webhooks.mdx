@@ -1,0 +1,14 @@
+---
+title: "New file"
+description: "Description of your new file."
+---
+
+Set up webhooks to receive payment status updates.
+
+Loop sends 3 webhooks: 
+
+| Name              | Description                                                                                                                                                            |
+| :---------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| payin.created     | Triggered when a payin is created.                                                                                                                                     |
+| payment.processed | Triggered when a payment confirms on-chain.                                                                                                                            |
+| payment.missed    | Triggered 10 minutes after the due date for the payin has passed. If the payin is processed within that 10 minute window, no missed payment notification will be sent. |

@@ -17,9 +17,9 @@
             "group": "Welcome",
             "pages": [
               "index",
-              "key-terminology"
+              "architecture",
+              "key-terminology" 
                       ]
-            
           }
         ]
       },
@@ -29,10 +29,17 @@
           {
             "group": "Getting started",
             "pages": [
-              "payments/quickstart",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
+              "payments/create-account",
+              "payments/webhooks",
+              "payments/widget"
+            ]
+          }, 
+          {
+            "group": "Online payment",
+            "pages": [
+              "payments/take-payment",
+              "payments/recurring-payment",
+              "payments/widget"
             ]
           }
         ]
