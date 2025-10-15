@@ -1,14 +1,183 @@
 ---
-title: "New file"
-description: "Description of your new file."
+title: "Configure webhooks"
+description: "Set up webhooks to receive payment status updates."
 ---
 
-Set up webhooks to receive payment status updates.
+# **How to configure webhooks**
 
-Loop sends 3 webhooks: 
+## **Generate a secret key**
 
-| Name              | Description                                                                                                                                                            |
+Start by generating a webhook secret. Every Loop webhook request will include a loop-signature header which contains a signature that you can verify to make sure the request came from Loop. The signature is encoded using your webhook shared private key. Please verify this signature before acting on the request in your system.
+
+## **Set webhook destination and select events**
+
+Using the create webhooks endpoint, you can set the URL destination using the `postURL` parameter and selecting the events you wish to trigger using the `events` parameter. You can retrieve a list of all the available webhooks using the list webhooks endpoint.
+
+## **Available webhooks**
+
+| **Name**          | **Description**                                                                                                                                                        |
 | :---------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| payin.created     | Triggered when a payin is created.                                                                                                                                     |
+| payin.created     | Triggered when a payin is created                                                                                                                                      |
 | payment.processed | Triggered when a payment confirms on-chain.                                                                                                                            |
 | payment.missed    | Triggered 10 minutes after the due date for the payin has passed. If the payin is processed within that 10 minute window, no missed payment notification will be sent. |
+
+### **Webhook schema**
+
+All webhook event payloads follow a consistent structure, allowing relevant payin information to be extracted as necessary.
+
+Note: `transaction` will only be present in the `payment.processed` webhook since there will not be any transaction information when the payin is created or the payment has been missed
+
+JSON
+
+```json
+{
+    "payinId": "string",           // Unique identifier for the payin
+    "merchantId": "string",        // Unique identifier of the merchant
+    "amount": "string",            // Payment amount (in fiat or token)
+    "amountType": "fiat | token",  // Type of the amount
+    "billDate": "number",          // Unix timestamp for payment date
+    "invoiceId": "string",         // Unique invoice identifier
+    "description": "string | null", // Optional description of the payin
+    "externalInvoiceRef": "string | null", // Optional external invoice reference
+    "payinType": "subscription | invoice", // Type of payin
+    "payinStatus": "scheduled | pending | completed | failed | canceled | uncollectible | draft", // Status of the payin
+    "transaction": {
+        "transactionId": "string",    // Blockchain transaction ID
+        "transactionUrl": "string",   // URL to view transaction in blockchain explorer
+        "amountTransferred": "string | null", // Actual token amount transferred
+        "exchangeRate": {
+            "currency": "string",       // Currency code
+            "price": "string",          // Exchange rate price
+            "timestamp": "number"       // Exchange rate timestamp
+        }
+    } | null,
+    "paymentMethod": {
+        "paymentMethodId": "string",  // Unique identifier for payment method
+        "paymentMethodName": "string", // Name of payment method
+        "customer": {
+            "customerId": "string",     // Customer identifier
+            "customerRefId": "string | null" // External customer reference
+        },
+        "networkId": "number",        // Blockchain network ID
+        "walletAddress": "string",    // Wallet address
+        "isDefault": "boolean",       // Whether this is the default payment method
+        "status": "ok | insufficient_balance | insufficient_authorization | insufficient_balance_authorization", // Payment method status
+        "token": {
+            "tokenId": "string",        // Token identifier
+            "symbol": "string",         // Token symbol
+            "address": "string",        // Token contract address
+            "decimals": "number",       // Token decimals
+            "exchangeRates": [
+                {
+                    "currency": "string",   // Currency code
+                    "price": "string",      // Exchange rate price
+                    "timestamp": "number"   // Exchange rate timestamp
+                }
+            ]
+        },
+        "preAuthorization": {
+            "balance": "string",        // Pre-authorized balance
+            "authorization": "string"   // Pre-authorized amount
+        }
+    },
+    "payoutDestination": {
+        "payoutDestinationId": "string", // Unique identifier for payout destination
+        "networkId": "number",           // Blockchain network ID
+        "walletAddress": "string"        // Destination wallet address
+    },
+    "dateCreated": "number"        // Unix timestamp of creation date
+}
+```
+
+### **Example payload**
+
+JSON
+
+```json
+{
+    "payinId": "8f47c6e9-2b3a-4d5c-9f8e-1a2b3c4d5e6f",
+    "merchantId": "67e55044-10b1-426f-9247-bb680e5fe0c8",
+    "amount": "100",
+    "amountType": "fiat",
+    "billDate": 1716211200,
+    "invoiceId": "1234567890abcdef",
+    "description": "Payment for Developer plan",
+    "externalInvoiceRef": "EXT-123",
+    "payinType": "subscription",
+    "payinStatus": "completed",
+    "transaction": {
+        "transactionId": "0xcfdfbb523c079e47e9a17ba236fa978257d4331e96ec43997e974b97522047fe",
+        "transactionUrl": "https://etherscan.io/tx/0xcfdfbb523c079e47e9a17ba236fa978257d4331e96ec43997e974b97522047fe",
+        "amountTransferred": "1990000",
+        "exchangeRate": {
+            "currency": "USD",
+            "price": "1.00",
+            "timestamp": 1716211200
+        }
+    },
+    "paymentMethod": {
+        "paymentMethodId": "pm_123456",
+        "paymentMethodName": "USDC Wallet",
+        "customer": {
+            "customerId": "cus_123456",
+            "customerRefId": "CUST-123"
+        },
+        "networkId": 1,
+        "walletAddress": "0x1234567890abcdef1234567890abcdef12345678",
+        "isDefault": true,
+        "status": "ok",
+        "token": {
+            "tokenId": "tok_123456",
+            "symbol": "USDC",
+            "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+            "decimals": 6,
+            "exchangeRates": [
+                {
+                    "currency": "USD",
+                    "price": "1.00",
+                    "timestamp": 1716211200
+                }
+            ]
+        },
+        "preAuthorization": {
+            "balance": "1000.00",
+            "authorization": "100.00"
+        }
+    },
+    "payoutDestination": {
+        ""networkId": 1,
+        "walletAddress": "0xabcdef1234567890abcdef1234567890abcdef12"
+    },
+    "dateCreated": 1716211200
+}
+```
+
+# **Verifying signatures**
+
+Every Loop webhook request will include a loop-signature header which contains a signature that you can verify to make sure the request came from Loop.
+
+The signature is encoded using your webhook shared private key. Please verify this signature before acting on the request in your system.
+
+## **Getting the secret key**
+
+Before you can verify signatures, you need to retrieve your endpoint’s secret from [<u>get secret</u>](https://docs.loopcrypto.xyz/reference/getwebhooksecretroute#/) endpoint.
+
+Loop generates a unique secret key for each environment for your entity. If you use the same endpoint for both demo and production API keys, note that the secret is different for each environment.
+
+## **Verifying the signature**
+
+Loop generates signatures using a hash-based message authentication code ([<u>HMAC</u>](https://en.wikipedia.org/wiki/Hash-based_message_authentication_code)) with [<u>SHA-256</u>](https://docs.loopcrypto.xyz/docs/SHA-256). To manually verify the signature, compute an HMAC with the SHA256 hash function using the webhook response body (in string form) and the shared secret as input.
+
+An example, written in node.js, is shown below for reference:
+
+```
+let CryptoJS = require("crypto-js");  
+const secret = "\<MY_LOOP_WEBHOOK_SECRET>"  
+const data = "\<WEBHOOK_RESPONSE_BODY>"
+
+const signature = CryptoJS.HmacSHA256(JSON.stringify(data), secret).toString(CryptoJS.enc.Base64);
+
+// 'signature' should match 'loop-signature' header in the webhook response
+```
+
+If the HMAC with the SHA256 hash function of the message's body matches the signature, you have successfully verified the signature!
