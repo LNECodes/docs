@@ -1,5 +1,19 @@
 ---
-title: 'New file'
-description: 'Description of your new file.'
+title: "Balances and approvals "
+description: "Description of your new file."
 ---
 
+Unlike other payment methods, you can check the balance and authorization amount of a wallet at any time by calling the `paymentMethods` endpoint. The response will include:
+
+```json
+"preAuthorization": {
+        "balance": "2000.802177",
+        "authorization": "100000.01"
+  }
+```
+
+You can use this information to:
+
+- Send proactive notifications (like emails) to customers before payments are due
+- Check the status of a payment method before charging it
+- Understand why a payment is not processing
