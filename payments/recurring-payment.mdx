@@ -5,6 +5,8 @@ description: "Charge a paymentMethod on file "
 
 Loop allows you to easily charge a Customer's `paymentMethod` without having to ask the user to take an action. To do this, you will need the `customerId` or `paymentmethodId.`
 
+Set a high minAuthorizationAmount
+
 ## **Check the status of the payment method (recommended)**
 
 `Payins` process on their `billDate` only if the `paymentMethod` has a `preAuthorization` `balance` and `authorization` that is equal to or above the `amount`. If this is not the case, the `payin` will sit in `scheduled` while Loop retries every 3 minutes for 7 days.

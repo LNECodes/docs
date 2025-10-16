@@ -1,4 +1,437 @@
 ---
 title: "React Component"
-description: "Description of your new file."
 ---
+
+Loop Connect's "Pay In" component renders a customizable UI for users to connect their wallet, select their token, and complete the payment authorization process.
+
+This document outlines the interface for adding a component to a React-based project. For those who wish to utilize a Javascript native web component for rendering into any project that supports them, like Vue or Svelte, use this page as a guide for usage and types, and use our <u>Web component guide</u> for assistance with native web component syntax.
+
+## **Payment details**
+
+The following properties ("props") are added to the `LoopConnectPayIn` component. Setting `paymentUsdAmount` is **required**, while all of the other properties are optional and can help you reconcile payment records with your data
+
+```jsx
+<LoopConnectPayIn 
+    paymentUsdAmount={199} 
+    // Other optional props
+/>
+```
+
+| **Property name**                 | **Type or example**                | **Description**                                                                                                                                                                                               |
+| :-------------------------------- | :--------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `paymentUsdAmount` **(required)** | `number`, eg. `199` _(for \$1.99)_ | The amount in USD that will be charged in the equivalent selected token, expressed in cents                                                                                                                   |
+| `minimumAuthorizationUsdAmount`   | `number`, eg. `199` _(for \$1.99)_ | The minimum USD equivalent the user must authorize from their wallet in the selected token to complete the payment. If no value is set, only `paymentUsdAmount` is required.                                  |
+| `customerRefId`                   | `string`, eg. `"usr_abc1234"`      | A reference to the user making payment                                                                                                                                                                        |
+| `subscriptionRefId`               | `string`, eg. `"sub_abc1234"`      | A reference to the item being purchased                                                                                                                                                                       |
+| `invoiceRefId`                    | `string`, eg. `"inv_abc1234"`      | A reference to an invoice being paid                                                                                                                                                                          |
+| `awaitConfirmation`               | `boolean` (default is `true`)      | Controls whether confirmation of the transaction on-chain is part of the payment flow. If `false`, the user will only wait for the PayIn to be created before the component's `state` is set to `"complete"`. |
+| `disabled`                        | `boolean` (default is `false`)     | Disables UI components such that they can not be interacted with by the client.                                                                                                                               |
+| `disableSubmit`                   | `boolean` (default is `false`)     | Disables the submit action, preventing payment processing while keeping the UI interactive. This provides more granular control than the `disabled` prop.                                                     |
+| `billDate`                        | `number` (default is `0`)          | Sets the date for the payIn as a unix timestamp. If left blank or set to 0, payment will process immediately.                                                                                                 |
+
+## **PayIn events**
+
+The `LoopConnectPayIn` component also accepts **optional** event callback handlers. The callback functions take the form `(detail: EventType) => void`, where `EventType` is a placeholder to represent the <u>individually defined type for each event, specified below</u>.
+
+| **Event**                       | **Callback types**                 | **Description**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| :------------------------------ | :--------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `onPayInReady`                  | `PayInReadyEvent`                  | The component has received the necessary data and is ready for user interaction.                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| `onPayInReadyFailed`            | `PayInReadyFailedEvent`            | The component failed to initialize.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| `onPayInTokenChange`            | `PayInTokenChangeEvent`            | The user has changed the selected token they wish to pay with from the component UI                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| `onPayInStateChange`            | `PayInStateChangeEvent`            | Once a user initiates a payment, this component calls back with each step to allow you to provide detailed notifications for your users. Note that you can optionally enable a state notification message to be provided to the user within the component UI using the `stateNotification`[<u>property</u>](https://docs.loopcrypto.xyz/docs/payin-component#notifications)  detailed below. Details on the [<u>payment states</u>](https://docs.loopcrypto.xyz/docs/payin-component#onpayinstatechange) is provided below. |
+| `onPayInAuthorizationConfirmed` | `PayInAuthorizationConfirmedEvent` | The authorization granted by the user's wallet for this token to the contract has been verified to meet he defined minimum                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `onPayInAuthorizationUpdated`   | `PayInAuthorizationUpdatedEvent`   | The user has updated their wallet's authorization to transfer the selected token to the contract                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| `onPayInCustomerCreated`        | `PayInCustomerCreatedEvent`        | A record was created for this customer and their selected payment method                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| `onPayInPaymentMethodCreated`   | `PayInPaymentMethodCreatedEvent`   | A new payment method was created and assigned to the customer account                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| `onPayInCreated`                | `PayInCreatedEvent`                | The PayIn has been received and the transaction has been sent for processing                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| `onPayInConfirmed`              | `PayInConfirmedEvent`              | The PayIn's transaction has been confirmed to have been written on-chain                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| `onPayInFailed`                 | `PayInFailedEvent`                 | The payment was not created because a require step failed or was canceled by the user. Note that you can optionally enable a failure notification message to be provided to the user within the component UI using the `failureNotification`[<u>property</u>](https://docs.loopcrypto.xyz/docs/payin-component#notifications)  detailed below. Details on the [<u>failure types</u>](https://docs.loopcrypto.xyz/docs/payin-component#onpayinfailed) is provided below.                                                     |
+
+> 💡 Both `onWalletChange` and `onNetworkChange` (defined above as `initLoopConnect`[<u>properties</u>](https://docs.loopcrypto.xyz/docs/initialization) ) can be provided in the same format to the `LoopConnectPayIn` component for your convenience. Just note that each individual component will trigger their own provided callback for the same event occurrence, as these events are tied to the user's wallet which is a single connection shared application wide.
+
+#### **Callback prop types**
+
+The `PayIn` event callback functions receive data about the event through a single property, where each event receives an object with a different type. The following types correspond to the types specified in the "PayIn events" table above.
+
+<CodeGroup>
+
+```typescript PayInReadyEvent
+interface PayInReadyEvent {
+    merchantId: string;
+}
+```
+
+
+```typescript PayInReadyFailedEvent
+interface PayInReadyFailedEvent {
+    type: "payinReadyFailed";
+    message: string;
+    data: Record<string, any>;
+}
+```
+
+
+``` PayInTokenChangeEvent
+interface PayInTokenChangeEvent {
+    address: string;
+    networkId: number;
+    name: string;
+    symbol: string;
+    decimals: number;
+    logoUrl: string;
+    exchange: ExchangeRateDetails;
+}
+```
+
+
+``` PayInStateChangeEvent
+interface PayInStateChangeEvent {
+    state: 
+        | "idle" 
+        | "confirmingBalance" 
+        | "confirmingAuthorization" 
+        | "updatingAuthorization" 
+        | "signingMessage" 
+        | "creatingCustomer" 
+        | "creatingPayment" 
+        | "confirmingPayment" 
+        | "complete";
+    message: string;
+    data: /* see "onPayInStateChange states" for types */;
+}
+```
+
+
+``` PayInAuthorizationConfirmedEvent
+interface PayInAuthorizationConfirmedEvent {
+    authorizationAmount: string;
+    suggestedAuthorizationTokenAmount: string | undefined;
+    minimumAuthorizationTokenAmount: string | undefined;
+    tokenAddress: string;
+    tokenSymbol: string;
+    networkId: number;
+    walletAddress: string;
+    existingAuthorizationAmount: string | null;
+}
+```
+
+
+``` PayInAuthorizationUpdatedEvent
+interface PayInAuthorizationUpdatedEvent {
+    authorizationAmount: string;
+    suggestedAuthorizationTokenAmount: string | undefined;
+    minimumAuthorizationTokenAmount: string | undefined;
+    tokenAddress: string;
+    tokenSymbol: string;
+    networkId: number;
+    walletAddress: string;
+    existingAuthorizationAmount: string | null;
+}
+```
+
+
+``` PayInCustomerCreatedEvent
+interface PayInCustomerCreatedEvent {
+    customerId: string;
+    customerRefIds: {
+        merchantId: string;
+        customerRefId: string;
+    }[];
+    paymentMethods: {
+        paymentMethodId: string;
+        paymentMethodName: string;
+        networkId: number;
+        walletAddress: string;
+        isDefault: boolean;
+        token: {
+            tokenId: string;
+            symbol: string;
+            address: string;
+            decimals: number;
+            exchangeRates: {
+                currency: string;
+                price: string;
+                timestamp: number;
+            }[];
+        };
+        preAuthorization: {
+            balance: string;
+            authorization: string;
+        };
+    }[];
+    dateCreated: number;
+}
+```
+
+
+```typescript PayInPaymentMethodCreatedEvent
+interface PayInPaymentMethodCreatedEvent {
+    paymentMethodId: string;
+    merchantId: string;
+    paymentMethodName: string;
+    networkId: number;
+    walletAddress: string;
+    isDefault: boolean;
+    token: {
+        tokenId: string;
+        symbol: string;
+        address: string;
+        decimals: number;
+        exchangeRates: {
+            currency: string;
+            price: string;
+            timestamp: number;
+        }[];
+    };
+    preAuthorization: {
+        balance: string;
+        authorization: string;
+    };
+}
+```
+
+
+```typescript PayInCreatedEvent
+interface PayInCreatedEvent {
+    payinId: string;
+    merchantId: string;
+    amount: string;
+    amountType: "fiat" | "token";
+    billDate: number;
+    invoiceId: string;
+    description: string | null;
+    externalInvoiceRef: string | null;
+    payinType: "subscription" | "invoice";
+    payinStatus:
+        | "scheduled"
+        | "pending"
+        | "completed"
+        | "failed"
+        | "canceled"
+        | "uncollectible"
+        | "draft";
+    transaction: {
+        transactionId: string;
+        transactionUrl: string;
+        amountTransferred: string | null;
+        exchangeRate: {
+            currency: string;
+            price: string;
+            timestamp: number;
+        } | null; 
+    } | null;
+    paymentMethod: {
+        paymentMethodId: string;
+        paymentMethodName: string;
+        customer: {
+            customerId: string;
+            customerRefId: string | null;
+        }
+        networkId: number;
+        walletAddress: string;
+        isDefault: boolean;
+        status: string;
+        token: {
+            tokenId: string;
+            symbol: string;
+            address: string;
+            decimals: number;
+            exchangeRates: {
+                currency: string;
+                price: string;
+                timestamp: number;
+            }[];
+        };
+        preAuthorization: {
+            balance: string;
+            authorization: string;
+        };
+    };
+    payoutDestination: {
+        payoutDestinationId: string;
+        networkId: number;
+        walletAddress: string;
+    };
+    dateCreated: number;
+}
+```
+
+
+```typescript PayInConfirmedEvent
+interface PayInConfirmedEvent<T extends "EVM" | "SOL"> {
+    transaction: {
+        transactionId: string;
+        transactionUrl: string;
+        amountTransferred: string | null;
+        exchangeRate: {
+            currency: string;
+            price: string;
+            timestamp: number;
+        } | null; 
+    };
+    walletAddress: string;
+    networkId: number;
+    rpcUrl: string;
+    chain: T;
+    receipt: T extends "EVM" ? ethers.TransactionReceipt : number;
+}
+```
+
+
+```typescript PayInFailedEvent
+interface PayInFailedEvent {
+	type:
+        | "insufficientBalance"
+        | "insufficientAuthorization"
+  	    | "signedMessageRequired"
+  	    | "customerCreationFailed"
+  	    | "paymentFailed"
+        | "transactionFailed";
+	message: string;
+	data: {
+		error: Record<string, any> | undefined;
+	};
+}
+```
+
+</CodeGroup>
+
+### `onPayInStateChange`
+
+The `onPayInStateChange` event handler will receive an object which contains the `state` property set to one of the following `string` values indicating the component's current state of payment.
+
+```jsx
+<LoopConnectPayIn 
+    // other props
+    onPayInStateChange={
+        ({ state, message, data }) => console.log(`${state}: ${message}`, data);
+    } 
+/>
+```
+
+| **State**                 | **Event **`data`**object type**                | **Description**                                                                                                                                                                  |
+| :------------------------ | :--------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `idle`                    | `PayInStateChangeEventIdle`                    | The initial state of the component prior to initiating the payment process, as well as the state set after a payment failure                                                     |
+| `confirmingBalance`       | `PayInStateChangeEventConfirmingBalance`       | Awaiting a response back from the blockchain to confirm the wallet's balance is sufficient in the selected token on the wallet's current network                                 |
+| `confirmingAuthorization` | `PayInStateChangeEventConfirmingAuthorization` | Awaiting a response back from the blockchain to confirm the wallet's authorization is sufficient in the selected token on the wallet's current network for the contract required |
+| `updatingAuthorization`   | `PayInStateChangeEventUpdatingAuthorization`   | The wallet's authorization was insufficient and is now awaiting confirmation that the user has completed their wallet's prompt to update the amount                              |
+| `authorized`              | `PayInStateChangeEventAuthorized`              | The wallet's authorization was insufficient and is now awaiting confirmation that the user has completed their wallet's prompt to update the amount                              |
+| `signingMessage`          | `PayInStateChangeEventSigningMessage`          | Awaiting a signed message from the user's wallet which has prompted them to authorize Loop Crypto to process the payment                                                         |
+| `creatingPaymentMethod`   | `PayInStateChangeEventCreatingPaymentMethod`   | Awaiting confirmation that a new payment method was created, storing the payment details and signed message                                                                      |
+| `creatingCustomer`        | `PayInStateChangeEventCreatingCustomer`        | Awaiting confirmation that a customer record was created, storing the user's payment method                                                                                      |
+| `creatingPayment`         | `PayInStateChangeEventCreatingPayment`         | All of the required checks have been confirmed and the payment is being sent for processing                                                                                      |
+| `confirmingPayment`       | `PayInStateChangeEventConfirmingPayment`       | If the transactions is being processed synchronously, this state indicates that the component is awaiting confirmation of the transaction on-chain                               |
+| `complete`                | `PayInStateChangeEventComplete`                | The component remains in this state once the payment data has been received and confirmed to be sufficient to process the payment                                                |
+
+#### **State **`data`**object types** 
+
+In addition to supplying the `state` and a human-readable `message` describing the event, a unique `data` object containing information about the state is provided. The following types correspond to the types specified in the "onPayInStateChange states" table above.
+
+<CodeGroup>
+
+``` filename
+// add code here
+```
+
+</CodeGroup>
+
+### `onPayInFailed`
+
+The `onPayInFailed` event handler will receive an object which contains the `type` property set to one of the following `string` values indicating the reason the payment was not sent for processing successfully.
+
+```jsx
+<LoopConnectPayIn 
+    // other props
+    onPayInFailed={
+        ({ type, message, data }) => console.log(`${type}: ${message}`, data);
+    } 
+/>
+```
+
+| **Failure type**            | **Description**                                                                                                                                                                                         |
+| :-------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `insufficientBalance`       | The wallet connected does not have the sufficient amount of token equivalent to the amount of USD specified by `paymentUsdAmount` on the current network                                                |
+| `insufficientAuthorization` | The user has not granted sufficient USD equivalent authorization for this token to meet the `minimumAuthorizationUsdAmount` (if not specified, uses `paymentUsdAmount`) on the wallet's current network |
+| `signedMessageRequired`     | The wallet failed to sign a message to approve the transfer of the payment token                                                                                                                        |
+| `customerCreationFailed`    | There was a problem storing the customer's payment details                                                                                                                                              |
+| `paymentFailed`             | There was a problem obtaining approval of the payment details having been sent for processing                                                                                                           |
+| `transactionFailed`         | There was a problem while attempting to confirm a payment on-chain                                                                                                                                      |
+
+#### **State **`data`**object types** 
+
+For `onPayInFailed` events, the `data` object contains an `error` object of the type `Record<string, any>`, which returns details about the error, and in most cases is a native Javascript `Event` object.
+
+## **User interface**
+
+You can provide **optional** properties to allow for customization of the UI to more seamlessly match your application's look and feel.
+
+### **Notifications**
+
+| **Property name**        | **Options and default**                                  | **Description**                                                                                                                                                                                                     |
+| :----------------------- | :------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `stateNotification`      | `"eventOnly"` or `"embedded"` (default is `"eventOnly"`) | When set to `"embedded"`, the component will displays messaging above the payment button to provide details to the user about the current state of the payment process. No message is shown for the `"idle"` state. |
+| `failureNotification`    | `"eventOnly"` or `"embedded"` (default is `"eventOnly"`) | When set to `"embedded"`, the component will displays messaging above the payment button to provide details to the user about failures that occurred during the payment process.                                    |
+| `confirmingNotification` | `"eventOnly"` or `"embedded"` (default is `"eventOnly"`) | When set to `"embedded"`, the component will replace the payment button with details about the payment awaiting confirmation on chain when the component state is `"confirmingPayment"`                             |
+| `completeNotification`   | `"eventOnly"` or `"embedded"` (default is `"eventOnly"`) | When set to `"embedded"`, the component will replace the payment button with details about the payment once confirmed and the component state is `"complete"`                                                       |
+| `authorizedNotification` | `"eventOnly"` or `"embedded"` (default is `"eventOnly"`) | When set to `"embedded"`, the component will replace the payment button with details about the authorization once confirmed and the component state is `"authorized"`                                               |
+
+### **Styling**
+
+The component's UI can be customized by providing a string of CSS custom properties and values. The values assigned to the property must be valid CSS for that type of property, which corresponds to a CSS declaration. In the table below, each custom property is linked to the corresponding CSS property it represents to ensure clarity.
+
+JSX
+
+```
+<LoopConnectPayIn 
+    // other props
+    customStyles={`
+        --loop-connect-font: italic 700 1rem 'Poppins', sans-serif;
+        --loop-connect-widget-shadow: 0 0 0.5rem rgba(99,99,99,0.3);
+    `} 
+/>
+```
+
+| **Property**                       | **CSS property or type** | **Description**                                                                                                                 |
+| :--------------------------------- | :----------------------- | :------------------------------------------------------------------------------------------------------------------------------ |
+| `--loop-connect-color-primary`     | `<color>`                | Used as an accent color, primarily for button background, but not exclusively backgrounds                                       |
+| `--loop-connect-color-on-primary`  | `color`                  | Used as the text or accent color when shown within subcomponents colored with the `primary` color                               |
+| `--loop-connect-radius`            | `border-radius`          | Defines the roundness of box corners. Also applies to the entire widget, unless \`\`--loop-connect-widget-radius\` overrides it |
+| `--loop-connect-color-text`        | `color`                  | Defines the color of text                                                                                                       |
+| `--loop-connect-font`              | `font`                   | Assigns the size, weight, style and family for the font used as the main copy within the component                              |
+| `--loop-connect-widget-border`     | `border`                 | Defines the border around the entire widget                                                                                     |
+| `--loop-connect-widget-radius`     | `border-radius`          | Defines the roundness of the corners of the widget. Will override `--loop-connect-radius` if set                                |
+| `--loop-connect-widget-padding`    | `padding`                | Specifies the padding around the outside of the component                                                                       |
+| `--loop-connect-widget-shadow`     | `box-shadow`             | Specifies the styling of the outer shadow around the component                                                                  |
+| `--loop-connect-widget-background` | `background`             | Sets the background color of the component                                                                                      |
+| `--loop-connect-input-border`      | `border`                 | Overrides the default border style of input and select subcomponents                                                            |
+| `--loop-connect-input-background`  | `background`             | Assigns a background color to input and select subcomponents                                                                    |
+
+> 💡 Note that the `customStyles` property can also be provided to the `initLoopConnect`[<u>as a property</u>](https://docs.loopcrypto.xyz/docs/initialization)  and will apply the styles to _all_ Loop Connect components application-wide. Properties then applied to individual components will override those app-wide values, creating a cascade effect.
+
+---
+
+# **Quickstart example**
+
+```jsx
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+
+// 1. Import the package
+import { initLoopConnect, LoopConnectPayIn } from "@loop-crypto/connect";
+
+// 2. Initialize is outside of the application
+initLoopConnect({
+    jwtToken: "your-jwt-token-here",
+    entityId: "your-entity-id-here",
+    merchantId: "your-merchant-id-here",
+});
+
+// 3. Add the PayIn component to the React application
+createRoot(document.getElementById("root")!).render(
+    <StrictMode>
+        <LoopConnectPayIn
+            paymentUsdAmount={100}
+        />
+    </StrictMode>
+);
+```

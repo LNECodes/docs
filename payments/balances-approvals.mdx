@@ -11,8 +11,33 @@ Unlike other payment methods, you can check the balance and authorization amount
   }
 ```
 
+The balance amount is in the `token` amount and pre-formatted for token decimals. For stablecoins, like USDC and USDT, the token amount is equal to \$1. 
+
+For all other tokens, you will can use the decimals and exchange rate provided in the response to convert.
+
+```json
+ "decimals": 6,
+        "exchangeRates": [
+          {
+            "currency": "USD",
+            "price": "10000",
+            "provider": "Loop",
+            "timestamp": 1760629472
+          }
+```
+
 You can use this information to:
 
 - Send proactive notifications (like emails) to customers before payments are due
 - Check the status of a payment method before charging it
 - Understand why a payment is not processing
+
+#### **Handling insufficient token balance**
+
+It is up to the end User to add more money to their wallet. 
+
+#### **Handling insufficient authorization**
+
+While the Pay component prompts the User to set a high enough authorization to cover future payments, this amount is consumed as payment occurs onchain. Thus, a may User need to increase their authorization. This functionality is a core feature of blockchains and cannot be overridden by Loop.
+
+If a User needs to increase their authorization, you can use the Manage Widget to provide a place for Users to easily adjust their authorization amount.
