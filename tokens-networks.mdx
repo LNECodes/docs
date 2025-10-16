@@ -1,35 +1,146 @@
 ---
-title: "Code blocks"
+title: "Networks & tokens"
 description: "Display inline code and code blocks"
 icon: "code"
 ---
 
-## Inline code
+Below is a list of the networks and tokens Loop support. Always use the List tokens endpoint for the most up-to-date information on supported tokens and networks. 
 
-To denote a `word` or `phrase` as code, enclose it in backticks (\`).
+# **Networks**
 
-```
-To denote a `word` or `phrase` as code, enclose it in backticks (`).
-```
+Loop supports any EVM network and Solana. Please contact us if you'd like to have another network added to your account.
 
-## Code blocks
+### **Default networks**
 
-Use [fenced code blocks](https://www.markdownguide.org/extended-syntax/#fenced-code-blocks) by enclosing code in three backticks and follow the leading ticks with the programming language of your snippet to get syntax highlighting. Optionally, you can also write the name of your code after the programming language.
+| **Network**            | **ChainId** |
+| :--------------------- | :---------- |
+| Ethereum               | 1           |
+| Optimism               | 10          |
+| Polygon                | 137         |
+| Arbitrum               | 42161       |
+| Binance                | 56          |
+| Base                   | 8453        |
+| Solana                 | 900         |
+| Celo                   | 42220       |
+| Tron                   | 728126428   |
+| Sepolia (Test network) | 11155111    |
+| Devent (Test network)  | 901         |
 
-```java HelloWorld.java
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.println("Hello, World!");
-    }
-}
-```
+# **Tokens**
 
-````md
-```java HelloWorld.java
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.println("Hello, World!");
-    }
-}
-```
-````
+Loop works with any ERC-20 token and SPL token. Please contact us if you'd like to have another token added to your account.
+
+It's important to note that native chain tokens like ETH and MATIC are not ERC-20. However, these tokens have wrapped versions and Loop provides an easy way for merchants to accept them by including a wrapping feature natively in the checkout process. When a customer selects WETH or WMATIC on the native chain, this functionality is displayed.
+
+### **Default tokens**
+
+#### **Ethereum**
+
+| **Token Symbol** | **Token Address**                          |
+| :--------------- | :----------------------------------------- |
+| USDC             | 0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48 |
+| USDG             | 0xe343167631d89B6Ffc58B88d6b7fB0228795491D |
+| GUSD             | 0x056Fd409E1d7A124BD7017459dFEa2F387b6d5Cd |
+| ETH              | 0x0000000000000000000000000000000000000000 |
+| WBTC             | 0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599 |
+| WETH             | 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2 |
+| DAI              | 0x6B175474E89094C44Da98b954EedeAC495271d0F |
+| FRAX             | 0x853d955aCEf822Db058eb8505911ED77F175b99e |
+| ENS              | 0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72 |
+| DYDX             | 0x92D6C1e31e14520e676a687F0a93788B716BEff5 |
+| UNI              | 0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984 |
+| CRV              | 0xD533a949740bb3306d119CC777fa900bA034cd52 |
+| IMX              | 0xF57e7e7C23978C3cAEC3C3548E3D615c346e79fF |
+
+#### **Optimism**
+
+| **Token Symbol** | **Token Address**                          |
+| :--------------- | :----------------------------------------- |
+| USDC (native)    | 0x0b2c639c533813f4aa9d7837caf62653d097ff85 |
+| USDC.e (wrapped) | 0x7f5c764cbc14f9669b88837ca1490cca17c31607 |
+| WETH             | 0x4200000000000000000000000000000000000006 |
+| DAI              | 0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1 |
+| WBTC             | 0x68f180fcCe6836688e9084f035309E29Bf0A2095 |
+| USDT             | 0x94b008aA00579c1307B0EF2c499aD98a8ce58e58 |
+| OP               | 0x4200000000000000000000000000000000000042 |
+
+#### **Polygon**
+
+| **Token Symbol** | **Token Address**                          |
+| :--------------- | :----------------------------------------- |
+| USDC (native)    | 0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359 |
+| USDC.e (wrapped) | 0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174 |
+| POL              | 0x0000000000000000000000000000000000000000 |
+| WETH             | 0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619 |
+| WMATIC           | 0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270 |
+| DAI              | 0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063 |
+| WBTC             | 0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6 |
+| USDT             | 0xc2132D05D31c914a87C6611C10748AEb04B58e8F |
+| UNI              | 0xb33EaAd8d922B1083446DC23f610c2567fB5180f |
+
+#### **Arbitrum**
+
+| **Token Symbol** | **Token Address**                          |
+| :--------------- | :----------------------------------------- |
+| USDC (native)    | 0xaf88d065e77c8cC2239327C5EDb3A432268e5831 |
+| USDC.e (wrapped) | 0xff970a61a04b1ca14834a43f5de4533ebddb5cc8 |
+| WETH             | 0x82af49447d8a07e3bd95bd0d56f35241523fbab1 |
+| DAI              | 0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1 |
+| WBTC             | 0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f |
+| USDT             | 0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9 |
+
+#### **BNB**
+
+| **Token Symbol** | **Token Address**                          |
+| :--------------- | :----------------------------------------- |
+| USDC (native)    | 0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d |
+| BNB              | 0x0000000000000000000000000000000000000000 |
+| WETH             | 0x2170Ed0880ac9A755fd29B2688956BD959F933F8 |
+| DAI              | 0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3 |
+| WBNB             | 0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c |
+| USDT             | 0x55d398326f99059fF775485246999027B3197955 |
+| WMATIC           | 0xCC42724C6683B7E57334c4E856f4c9965ED682bD |
+
+#### **Base**
+
+| **Token Symbol** | **Token Address**                          |
+| :--------------- | :----------------------------------------- |
+| USDC             | 0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913 |
+| USDCbc           | 0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA |
+| DAI              | 0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb |
+| DEGEN            | 0x4ed4E862860beD51a9570b96d89aF5E1B0Efefed |
+| WETH             | 0x4200000000000000000000000000000000000006 |
+
+#### **Solana**
+
+| **Token Symbol** | **Token Address**                            |
+| :--------------- | :------------------------------------------- |
+| USDC             | EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v |
+| USDG             | 2u1tszSeqZ3qBWF3uNGPFc8TzMk2tdiwknnRMWGWjGWH |
+| SOL              | 11111111111111111111111111111112             |
+
+#### **Celo**
+
+| **Token Symbol** | **Token Address**                          |
+| :--------------- | :----------------------------------------- |
+| USDC             | 0xcebA9300f2b948710d2653dD7B07f33A8B32118C |
+| cUSD             | 0x765de816845861e75a25fca122bb6898b8b1282a |
+
+### **Test Networks**
+
+#### **Sepolia**
+
+| **Token Symbol**    | **Token Address**                          |
+| :------------------ | :----------------------------------------- |
+| USDC                | 0x1c7d4b196cb0c7b01d743fbc6116a902379c7238 |
+| USDC (via COW swap) | 0x94a9D9AC8a22534E3FaCa9F4e7F2E2cf85d5E4C8 |
+| SepoliaETH          | 0x0000000000000000000000000000000000000000 |
+| WETH                | 0x7b79995e5f793a07bc00c21412e50ecae098e7f9 |
+| DAI                 | 0x68194a729c2450ad26072b3d33adacbcef39d574 |
+
+#### **DevNet**
+
+| **Token Symbol** | **Token Address**                            |
+| :--------------- | :------------------------------------------- |
+| USDC             | 4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU |
+| SOL              | 11111111111111111111111111111112             |

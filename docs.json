@@ -55,6 +55,7 @@
               "payments/payouts",
               "payments/payment-methods",
               "payments/balances-approvals",
+              "payments/retries",
               "payments/refunds",
               "tokens-networks"
             ]
