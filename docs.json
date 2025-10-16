@@ -111,7 +111,7 @@
           {
             "group": "Classic",
             "openapi": {
-              "source": "/openapi.classic.json",
+              "source": "api-reference/openapi.classic.json",
               "directory": "api-reference"
             }
           }
