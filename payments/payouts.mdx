@@ -1,7 +1,6 @@
 ---
 title: "Payouts"
-description: "Settle in fiat or crypto
-"
+description: "Settle in fiat or crypto "
 ---
 
 When creating an entity the `payoutDestination` is a required field that defines where funds settle - either a wallet address for crypto settlement or a bank account for fiat settlement. You must have a payout destination and payment types configured to receive payment on a network.
@@ -11,8 +10,6 @@ When creating an entity the `payoutDestination` is a required field that defines
 - Payout destinations are configured per network, allowing you to choose between fiat or crypto settlement on each supported network.
 - Please check our fiat settlement documentation for supported networks and tokens, as not all networks and tokens are available for off-ramping.
 
----
-
 ## **Crypto Settlement**
 
 For crypto settlement, simply specify per network:
@@ -21,8 +18,6 @@ For crypto settlement, simply specify per network:
 `walletAddress`: The blockchain wallet address where payments will be sent (must be a valid address for the specified network)
 
 That's all that's required for crypto settlement
-
----
 
 ## **Fiat Settlement**
 
