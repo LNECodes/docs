@@ -1,4 +1,66 @@
 ---
 title: "Payouts"
-description: "Description of your new file."
+description: "Settle in fiat or crypto
+"
 ---
+
+When creating an entity the `payoutDestination` is a required field that defines where funds settle - either a wallet address for crypto settlement or a bank account for fiat settlement. You must have a payout destination and payment types configured to receive payment on a network.
+
+#### **Information to know**
+
+- Payout destinations are configured per network, allowing you to choose between fiat or crypto settlement on each supported network.
+- Please check our fiat settlement documentation for supported networks and tokens, as not all networks and tokens are available for off-ramping.
+
+---
+
+## **Crypto Settlement**
+
+For crypto settlement, simply specify per network:
+
+`settlementType: crypto`\
+`walletAddress`: The blockchain wallet address where payments will be sent (must be a valid address for the specified network)
+
+That's all that's required for crypto settlement
+
+---
+
+## **Fiat Settlement**
+
+Loop's off-ramping process is designed to be completely automated once initial setup is complete:
+
+- **Setup**: Merchant completes KYC/KYB verification and provides bank account information
+- **Wallet Creation**: Loop automatically creates a dedicated wallet that is permanently linked to the merchant's bank account
+- **Automatic Sweeping**: Every 24 hours, all funds are swept from the merchant's wallet and automatically converted to fiat
+- **Bank Transfer**: Converted funds are immediately transferred to the linked bank account
+
+This process requires no merchant intervention once configured. Manual off-ramp initiation is also available upon request for merchants who prefer more control over timing.
+
+### **Merchant Creation and Configuration**
+
+#### **Creating the Merchant**
+
+- Create a merchant in Loop and configure `settlementType: fiat`
+- Payout destinations are configured per network
+
+Pass the `fiatSettlementSettings` object to initiate the KYB verification process.
+
+- **Entity type**: Business or individual
+- **Name**: Required field for individuals (provide their legal name)
+- **Email**: Optional field, defaults to the merchant's email address if not provided
+
+#### **API Response**
+
+Upon successful merchant creation, you'll receive:
+
+- **kycLink**: Direct link to the KYC/B documentation process. Merchants must complete this for off-ramp functionality to be enabled
+- **bankAccountFormLink**: External link to the bank account setup form. Redirect users to this link to add their banking information.
+
+Additionally, Loop will automatically create a wallet where crypto is sent to for off-ramping
+
+### **Status Monitoring**
+
+Use the GET merchant endpoint to query KYC/KYB status:
+
+- **Pending**: Documentation under review
+- **Approved**: Ready for off-ramping
+- **Rejected**: Additional documentation or corrections required

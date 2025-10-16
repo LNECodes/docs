@@ -11,7 +11,7 @@ A Loop entity defines your payment acceptance criteria and settlement preference
 | :------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `entityName`   | The name of your business                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | `email`        | You must have access to this email address as you will authenticate with an emailed code                                                                                                                                                                                                                                                                                                                                                                                                              |
-| paymentTypes   | Defines the tokens and networks that your entity is willing to support. <br /><br />For ease, you can pass in the `tokenSymbols` like `USDC` and `USDT` instead of passing in their `tokenAddresses`. The List Tokens endpoint will tell you the available tokens and networks to chose from. If you do not see a network or token that you would like, please contact Loop.<br /><br />For each network, you will need to define where funds will be paid out. This can either be in fiat or crypto. |
+| `paymentTypes` | Defines the tokens and networks that your entity is willing to support. <br /><br />For ease, you can pass in the `tokenSymbols` like `USDC` and `USDT` instead of passing in their `tokenAddresses`. The List Tokens endpoint will tell you the available tokens and networks to chose from. If you do not see a network or token that you would like, please contact Loop.<br /><br />For each network, you will need to define where funds will be paid out. This can either be in fiat or crypto. |
 
 ### Optional Parameters
 
@@ -21,106 +21,19 @@ A Loop entity defines your payment acceptance criteria and settlement preference
 | `logoUrl`                | Used only for Stripe integration; logo will appear on the hosted checkout page            |
 | `fiatSettlementSettings` | Required only if settling in fiat currency. Used to initiate the KYB verification process |
 
-## Configuring Payment Types
-
-The `paymentTypes` parameter defines which tokens and networks your entity will support.
-
-**Token specification:**
-
-- Use `tokenSymbols` (e.g., `USDC`, `USDT`) for simplified configuration
-- Alternatively, specify `tokenAddresses` for precise token identification
-- View available tokens and networks using the List Tokens endpoint
-- Contact Loop to request support for additional networks or tokens
-
-**Network configuration:** For each network, you must define a payout destination specifying either crypto or fiat settlement.
-
-## Settlement Options
-
-### Crypto Wallet Settlement
-
-Payments are sent directly to your designated cryptocurrency wallet address.
-
-### Fiat Off-ramping
-
-Payments are converted to fiat currency and deposited to your linked bank account.
-
-**Configuration:** Pass the `fiatSettlementSettings` object to initiate the KYB verification process.
-
-**API Response:** The entity creation response will include:
-
-- `kycLink`: Direct link to the KYC/KYB documentation process. Merchants must complete this before off-ramp functionality is enabled
-- `bankAccountFormLink`: External link to the bank account setup form. Redirect users here to add their banking information
-
-**How it works:**
-
-- Loop automatically provisions wallets to receive crypto on your behalf
-- Received funds are off-ramped to your linked bank account at set thresholds (time or value)
-- Optionally enable automatic conversion from crypto to stablecoins
-
-**Requirements:**
-
-- Complete Know Your Business (KYB) verification via the provided `kycLink`
-- Link a bank account using the `bankAccountFormLink`
-
-**Fees:**
-
-- Additional off-ramp fees apply to fiat settlements based on off-ramp currency and country
-- Configuring Payment Types
-
-  The `paymentTypes` parameter defines which tokens and networks your entity will support.
-
-  **Token specification:**
-  - Use `tokenSymbols` (e.g., `USDC`, `USDT`) for simplified configuration
-  - Alternatively, specify `tokenAddresses` for precise token identification
-  - View available tokens and networks using the List Tokens endpoint
-  - Contact Loop to request support for additional networks or tokens
-
-  **Network configuration:** For each network, you must define a payout destination specifying either crypto or fiat settlement.
-
-  ## Settlement Options
-
-  ### Crypto Wallet Settlement
-
-  Payments are sent directly to your designated cryptocurrency wallet address.
-
-  ### Fiat Off-ramping
-
-  Payments are converted to fiat currency and deposited to your linked bank account.
-
-  **Configuration:** Pass the `fiatSettlementSettings` object to initiate the KYB verification process.
-
-  **API Response:** The entity creation response will include:
-  - `kycLink`: Direct link to the KYC/KYB documentation process. Merchants must complete this before off-ramp functionality is enabled
-  - `bankAccountFormLink`: External link to the bank account setup form. Redirect users here to add their banking information
-
-  **How it works:**
-  - Loop automatically provisions wallets to receive cryptocurrency on your behalf
-  - Received funds are off-ramped to your linked bank account every 24 hours
-  - Optional: Enable automatic conversion from volatile cryptocurrencies (e.g., ETH, SOL) to stablecoins upon receipt to mitigate price volatility
-
-  **Requirements:**
-  - Complete Know Your Business (KYB) verification via the provided `kycLink`
-  - Link a bank account using the `bankAccountFormLink`
-
-  **Fees:**
-  - Additional off-ramp fees apply to fiat settlements
-
-## Next steps
+## Learn more
 
 Now that you have your entity is created, explore these key features:
 
 <CardGroup cols={2}>
-  <Card title="Write Content" icon="pen-to-square" href="/essentials/markdown">
-    Learn MDX syntax and start writing your documentation.
+  <Card title="Payment Types" icon="coin" href="/payments/payment-types">
+    Learn how to configure the tokens and networks that your entity is willing to support
   </Card>
-  <Card title="Customize style" icon="palette" href="/essentials/settings">
-    Make your docs match your brand perfectly.
+  <Card title="Payouts" icon="bank" href="/payouts">
+    Learn how to settle in both fiat or stablecoins
   </Card>
-  <Card title="Add code examples" icon="square-code" href="/essentials/code">
-    Include syntax-highlighted code blocks.
-  </Card>
-  <Card title="API documentation" icon="code" href="/api-reference/introduction">
-    Auto-generate API docs from OpenAPI specs.
+  <Card title="Supported Fiat Currencies" icon="dollar" href="/fiat-currencies">
+    Learn which currencies and countries payouts are supported in
   </Card>
 </CardGroup>
 

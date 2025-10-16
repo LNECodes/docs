@@ -27,23 +27,15 @@
         "tab": "Payments",
         "groups": [
           {
-            "group": "About Loop payments",
-            "pages": [
-              "payments/refunds",
-              "payments/balances-approvals",
-              "payments/payouts",
-              "tokens-networks"
-            ]
-          },
-          {
             "group": "Getting started",
             "pages": [
+              "payments/overview",
               "payments/create-account",
               "payments/webhooks"
             ]
           }, 
             {
-              "group": "Online payments",
+              "group": "Accept payments",
               "pages": [
                 {
                   "group": "Use the pay component",
@@ -57,6 +49,16 @@
                 "payments/recurring-payment"
               ]
             },
+          {
+            "group": "Other topics",
+            "pages": [
+              "payments/payouts",
+              "payments/payment-methods",
+              "payments/balances-approvals",
+              "payments/refunds",
+              "tokens-networks"
+            ]
+          },
           {
             "group": "Developer resources",
             "pages": [
