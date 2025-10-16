@@ -3,30 +3,24 @@ title: "Custom integration"
 description: "Description of your new file."
 ---
 
-## 
+Loop lets you take a payment without use of our components, allowing you to completely white-label Loop. 
 
-must test with at least message: "The payin amount of '1' is less than the minimum required amount of '5'."
+There are two steps: 
 
-<Steps>
-  <Step title="Create a customer with a payment method">
-    
-  </Step>
-  <Step title="Create payin">
-    
-  </Step>
-</Steps>
+1. Create a `customer` with a payment method
+2. Create a `payin`
 
-## Create a customer with a payment method
+# Create a customer with a payment method
 
 A required parameter in the `paymentMethod` is the `authorizationSignature`- a base64 encoded JWT token containing a signature proving ownership of the wallet address being registered as a payment method. This security measure ensures that only users with access to the wallet's private key can add it as a payment method. This guide demonstrates how to implement secure wallet authentication across EVM and Solana networks.
 
-# **Wallet Authentication Guide**
+## **Wallet Authentication Guide**
 
-#### **Note: This is only required if you are calling the API's directly. If you're using the Pay component, the component will take care of this for you**
+**Note: This is only required if you are calling the API's directly. If you're using the Pay component, the component will take care of this for you**
 
 This guide demonstrates how to generate authentication tokens for both EVM (Ethereum, Polygon, Base, etc.) and Solana wallets.
 
-## **Important Security Notes**
+**Important Security Notes**
 
 1. Never expose private keys in your production code
 2. Always use secure wallet connections in production environments
@@ -34,7 +28,7 @@ This guide demonstrates how to generate authentication tokens for both EVM (Ethe
 4. Implement proper error handling for failed wallet connections or signatures
 5. Verify the network (mainnet/testnet) before sending transactions
 
-## **Requirements**
+**Requirements**
 
 - EVM Wallets: MetaMask or similar Web3 wallet
 - Solana Wallets: Phantom or similar Solana wallet
@@ -55,11 +49,11 @@ This guide demonstrates how to generate authentication tokens for both EVM (Ethe
   }
   ```
 
-## **Generating and verifying authentication tokens using private keys directly**
+### **Generating and verifying authentication tokens using private keys directly**
 
 These examples are standalone test scripts for testing purposes only and should not be used with real private keys in production. They can be run independently to verify wallet authentication functionality.
 
-### **EVM**
+**EVM**
 
 ```javascript
 const { ethers } = require("ethers");
@@ -89,9 +83,9 @@ async function generateAuthToken() {
 generateAuthToken();
 ```
 
-### **Solana**
+**Solana**
 
-#### **Important note when constructing signatures for Solana:**
+**Important note when constructing signatures for Solana:**
 
 1. Signatures should always be `base64` encoded when sending in the API requests
 2. Solana wallet addresses are case sensitive and should never be lowercased when sending API requests
@@ -157,7 +151,7 @@ node solana-auth.js
 
 For production environments, you should connect to actual wallet providers (MetaMask for EVM, Phantom for Solana etc). Here are examples of how to implement wallet authentication in a web application:
 
-### **EVM Wallets**
+**EVM Wallets**
 
 ```javascript
 const authMessage = "I accept Loop Crypto Inc's Terms of Service";
@@ -184,9 +178,9 @@ async function generateAuthToken() {
 }
 ```
 
-### **Solana Wallets**
+**Solana Wallets**
 
-#### **Important note when constructing signatures for Solana:**
+**Important note when constructing signatures for Solana:**
 
 1. Signatures should always be `base64` encoded when sending in the API requests
 2. Solana wallet addresses are case sensitive and should never be lowercased when sending API requests
