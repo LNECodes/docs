@@ -45,11 +45,19 @@
           {
             "group": "Online payments",
             "pages": [
-              "payments/widget",
+              {
+                "group": "Widget",
+                "pages": [
+                  "payments/widget",
+                  "payments/react",
+                  "payments/web"
+                ]
+              },
               "payments/no-widget",
               "payments/recurring-payment"
             ]
-          }, {
+          }, 
+          {
             "group": "Developer resources",
             "pages": [
               "payments/demo-widget",
