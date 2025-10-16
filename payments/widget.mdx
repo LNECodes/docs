@@ -1,5 +1,5 @@
 ---
-title: "Embed payment widget "
+title: "Embed payment component "
 description: "Description of your new file."
 ---
 
@@ -53,7 +53,7 @@ initLoopConnect({
 });
 ```
 
-> 🎉 **You are now authenticated and ready to collect payment!** You may <u>skip directly to adding the "PayIn" component</u> now, or continuing configuring Loop Connect for a more custom experience.
+> 🎉 **You are now authenticated and ready to collect payment!** You may skip directly to adding the "PayIn" component now, or continuing configuring Loop Connect for a more custom experience.
 
 ## **Events**
 
@@ -66,7 +66,7 @@ The `initLoopConnect` function accepts **optional** event callback handlers to i
 | `onWalletChange`  | `WalletChangeEvent`  | The user has changed their connected wallet                                                      |
 | `onNetworkChange` | `NetworkChangeEvent` | The user has changed their connected wallet's network                                            |
 
-> 💡Note that the `onWalletChange` and `onNetworkChange` events can also be [<u>triggered as an event by the </u>](https://docs.loopcrypto.xyz/docs/payin-component#payin-events)`PayIn`[<u>component</u>](https://docs.loopcrypto.xyz/docs/payin-component#payin-events) by assigning it the same properties.
+> 💡Note that the `onWalletChange` and `onNetworkChange` events can also be triggered as an event by the `PayIn`component by assigning it the same properties.
 
 ### **Callback prop types**
 
@@ -112,9 +112,9 @@ interface NetworkChangeEvent {
 
 ### **Generating your JWT authentication token**
 
-Upon registration, you will be given an administrative `apiKey` to access our API. To generate the JWT token string provided to `initLoopConnect` as `jwtToken`, your `apiKey` must have `CreateAuthTokens` permission, which you can add to your key using our [<u>API reference's "Update API key" route</u>](https://docs.loopcrypto.xyz/reference/updateapikeyroute/).
+Upon registration, you will be given an administrative `apiKey` to access our API. To generate the JWT token string provided to `initLoopConnect` as `jwtToken`, your `apiKey` must have `CreateAuthTokens` permission, which you can add to your key using our API reference's "Update API key" route.
 
-With `CreateAuthTokens` permissions set for your `apiKey`, you can now create a `jwtToken` string at any time using the [<u>API reference's "Create Auth Token" route</u>](https://docs.loopcrypto.xyz/reference/createauthtokenroute/). Authentication tokens have a finite expiration time that can be configured upon creation. Practically speaking, you will need to generate an expiring auth token for each user session using code, to avoid exposing your `apiKey` publicly. A sample application flow might look like this:
+With `CreateAuthTokens` permissions set for your `apiKey`, you can now create a `jwtToken` string at any time using the API reference's "Create Auth Token" route. Authentication tokens have a finite expiration time that can be configured upon creation. Practically speaking, you will need to generate an expiring auth token for each user session using code, to avoid exposing your `apiKey` publicly. A sample application flow might look like this:
 
 #### **1. Backend: Generate a new JWT token**
 
@@ -181,7 +181,7 @@ If using an `apiKey` for testing, also providing a `jwtToken` will result in a f
 
 > ⚠️ **Never expose API keys** through frontend application code deployed to a public production environment
 
-### **Awaiting **`initLoopConnect`
+### \*\*Awaiting \*\*`initLoopConnect`
 
 The `initLoopConnect()` function is asynchronous, returning a `boolean` when resolved. The returning boolean can be used to determine initialization success or failure without providing event callbacks.
 
