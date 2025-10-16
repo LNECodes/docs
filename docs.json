@@ -35,11 +35,20 @@
             ]
           }, 
           {
-            "group": "Online payment",
+            "group": "Online payments",
             "pages": [
-              "payments/take-payment",
-              "payments/recurring-payment",
-              "payments/widget"
+              "payments/widget",
+              "payments/no-widget",
+              "payments/recurring-payment"
+            ]
+          }, 
+          {
+            "group": "About Loop payments",
+            "pages": [
+              "payments/refunds",
+              "payments/balances-approvals",
+              "payments/payouts",
+              "tokens-networks"
             ]
           }
         ]
