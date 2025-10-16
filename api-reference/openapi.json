@@ -1,1617 +1,217 @@
 {
-  "openapi": "3.0.0",
-  "components": {
-    "examples": {},
-    "headers": {},
-    "parameters": {},
-    "requestBodies": {},
-    "responses": {},
-    "schemas": {
-      "HttpErrorCode.UnprocessableContent": {
-        "enum": [
-          422
-        ],
-        "type": "number"
-      },
-      "HttpErrorDescription.UnprocessableContent": {
-        "enum": [
-          "Unprocessable Content"
-        ],
-        "type": "string"
-      },
-      "ValidateErrorModel": {
-        "description": "The validation error model",
-        "properties": {
-          "code": {
-            "$ref": "#/components/schemas/HttpErrorCode.UnprocessableContent",
-            "description": "The HTTP error code for this error",
-            "example": 422
-          },
-          "message": {
-            "$ref": "#/components/schemas/HttpErrorDescription.UnprocessableContent",
-            "description": "A message of why the error occurred",
-            "example": "Unprocessable Content"
-          },
-          "details": {
-            "properties": {},
-            "additionalProperties": {},
-            "type": "object",
-            "description": "The details of why the validation failed"
-          }
-        },
-        "required": [
-          "code",
-          "message",
-          "details"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "HttpErrorCode.GatewayTimeout": {
-        "enum": [
-          504
-        ],
-        "type": "number"
-      },
-      "HttpErrorDescription.GatewayTimeout": {
-        "enum": [
-          "Gateway Timeout"
-        ],
-        "type": "string"
-      },
-      "TimeoutErrorModel": {
-        "description": "The request timeout error model",
-        "properties": {
-          "code": {
-            "$ref": "#/components/schemas/HttpErrorCode.GatewayTimeout",
-            "description": "The HTTP error code for this error",
-            "example": 504
-          },
-          "message": {
-            "$ref": "#/components/schemas/HttpErrorDescription.GatewayTimeout",
-            "description": "A message of why the error occurred",
-            "example": "Gateway Timeout"
-          }
-        },
-        "required": [
-          "code",
-          "message"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "HttpErrorCode.InternalServerError": {
-        "enum": [
-          500
-        ],
-        "type": "number"
-      },
-      "HttpErrorDescription.InternalServerError": {
-        "enum": [
-          "Internal Server Error"
-        ],
-        "type": "string"
-      },
-      "GeneralErrorModel": {
-        "description": "The general error model",
-        "properties": {
-          "code": {
-            "$ref": "#/components/schemas/HttpErrorCode.InternalServerError",
-            "description": "The HTTP error code for this error",
-            "example": 500
-          },
-          "message": {
-            "$ref": "#/components/schemas/HttpErrorDescription.InternalServerError",
-            "description": "A message of why the error occurred",
-            "example": "Internal Server Error"
-          }
-        },
-        "required": [
-          "code",
-          "message"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "HttpErrorCode.Forbidden": {
-        "enum": [
-          403
-        ],
-        "type": "number"
-      },
-      "HttpErrorDescription.Forbidden": {
-        "enum": [
-          "Forbidden"
-        ],
-        "type": "string"
-      },
-      "ForbiddenErrorModel": {
-        "description": "The forbidden error model",
-        "properties": {
-          "code": {
-            "$ref": "#/components/schemas/HttpErrorCode.Forbidden",
-            "description": "The HTTP error code for this error",
-            "example": 403
-          },
-          "message": {
-            "$ref": "#/components/schemas/HttpErrorDescription.Forbidden",
-            "description": "A message of why the error occurred",
-            "example": "Forbidden"
-          }
-        },
-        "required": [
-          "code",
-          "message"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "HttpErrorCode.Unauthorized": {
-        "enum": [
-          401
-        ],
-        "type": "number"
-      },
-      "HttpErrorDescription.Unauthorized": {
-        "enum": [
-          "Unauthorized"
-        ],
-        "type": "string"
-      },
-      "UnauthorizedErrorModel": {
-        "description": "The unauthorized error model",
-        "properties": {
-          "code": {
-            "$ref": "#/components/schemas/HttpErrorCode.Unauthorized",
-            "description": "The HTTP error code for this error",
-            "example": 401
-          },
-          "message": {
-            "$ref": "#/components/schemas/HttpErrorDescription.Unauthorized",
-            "description": "A message of why the error occurred",
-            "example": "Unauthorized"
-          }
-        },
-        "required": [
-          "code",
-          "message"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "GeneralTransferResponse": {
-        "properties": {
-          "invoiceId": {
-            "type": "string",
-            "description": "Invoice ID"
-          },
-          "amount": {
-            "type": "string",
-            "description": "Amount to be transferred in string format: either cents or token based.",
-            "example": "1212"
-          },
-          "token": {
-            "type": "string",
-            "description": "Token address to be transferred"
-          },
-          "usd": {
-            "type": "boolean",
-            "description": "Transfer amount is USD or not",
-            "example": true
-          },
-          "itemId": {
-            "type": "string",
-            "description": "Item ID of the transfer",
-            "example": "1234-5678-9012"
-          },
-          "status": {
-            "type": "number",
-            "format": "double",
-            "description": "Status of the transfer.\nScheduled = 1\nSucceeded = 2\nFailed = 3\nCancelled = 4\nUncollectible = 5\nPending = 6\nDraft = 7",
-            "example": 3
-          },
-          "networkId": {
-            "type": "number",
-            "format": "double",
-            "description": "ID of the blockchain network",
-            "example": 1
-          },
-          "source": {
-            "type": "number",
-            "format": "double",
-            "description": "Source of invoice/data for the transfer\nManual = 1\nAutoGenerated = 2\nStripe = 3\nChargebee = 4\nQuickBooks = 5\nXero = 6",
-            "example": 3
-          },
-          "paymentTypeId": {
-            "type": "number",
-            "format": "double",
-            "description": "Type of payment for the transfer\nTransaction = 1\nFee = 2",
-            "example": 1
-          },
-          "batchId": {
-            "type": "string",
-            "description": "Batch ID of the transfer.\nAll transfer with the same batch will be processed together",
-            "example": "1234-5678-9012"
-          },
-          "tags": {
-            "items": {
-              "type": "number",
-              "format": "double"
-            },
-            "type": "array",
-            "nullable": true,
-            "description": "A list of tags associated with the transfer",
-            "example": [
-              "Salaries",
-              "Marketing"
-            ]
-          },
-          "notes": {
-            "type": "string",
-            "nullable": true,
-            "description": "Internal notes saved on the transfer",
-            "example": "This is July's payment"
-          },
-          "transferId": {
-            "type": "string",
-            "description": "ID for the transfer",
-            "example": "1234-5678-9012"
-          },
-          "entityId": {
-            "type": "string",
-            "description": "ID for the entity receiving the transfer",
-            "example": "1234-5678-9012"
-          },
-          "toAddress": {
-            "type": "string",
-            "description": "Receiving wallet for the transfer",
-            "example": "1234-5678-9012"
-          },
-          "fromAddress": {
-            "type": "string",
-            "description": "Sending wallet for the transfer",
-            "example": "1234-5678-9012"
-          },
-          "billDate": {
-            "type": "number",
-            "format": "double",
-            "description": "Date the transfer is due and will process. In seconds",
-            "example": "1701974672"
-          },
-          "billDateTime": {
-            "type": "string",
-            "description": "String version of the bill date",
-            "example": "2024-04-04T13:54:05.000Z"
-          },
-          "failureMessage": {
-            "type": "string",
-            "nullable": true,
-            "description": "Reason for the failure in text",
-            "example": "Not enough balance"
-          },
-          "failureCode": {
-            "type": "string",
-            "nullable": true,
-            "description": "Reason for the failure as sent directly from the contract",
-            "example": "0x00000000"
-          },
-          "datePaid": {
-            "type": "number",
-            "format": "double",
-            "nullable": true,
-            "description": "Date the was paid. In seconds",
-            "example": "1701974672"
-          },
-          "datePaidDateTime": {
-            "type": "string",
-            "nullable": true,
-            "description": "String version of the paid date",
-            "example": "2024-04-04T13:54:05.000Z"
-          },
-          "dateCreated": {
-            "type": "number",
-            "format": "double",
-            "description": "The date the transfer was created formatted as a Unix timestamp in seconds",
-            "example": "1664096943"
-          },
-          "transactionHash": {
-            "type": "string",
-            "nullable": true,
-            "description": "Hash of transaction on the blockchain",
-            "example": "0x12345998023"
-          },
-          "feeAmount": {
-            "type": "number",
-            "format": "double",
-            "nullable": true,
-            "description": "Fee amount charged for the transfer in cents",
-            "example": "100"
-          },
-          "feePaid": {
-            "type": "string",
-            "nullable": true,
-            "description": "Fee amount pain for the transfer in token amount",
-            "example": "1"
-          },
-          "decodedSignature": {
-            "properties": {
-              "s": {
-                "type": "string"
-              },
-              "r": {
-                "type": "string"
-              },
-              "v": {
-                "type": "number",
-                "format": "double"
-              }
-            },
-            "required": [
-              "s",
-              "r",
-              "v"
-            ],
-            "type": "object",
-            "nullable": true,
-            "description": "The decoded signature of the transfer"
-          },
-          "agreementId": {
-            "type": "string",
-            "nullable": true,
-            "description": "The agreement the transfer is associated with",
-            "example": "a836e7ac-5bfe-4eed-aa71-7864b82bd8eb"
-          }
-        },
-        "required": [
-          "invoiceId",
-          "amount",
-          "token",
-          "usd",
-          "itemId",
-          "status",
-          "networkId",
-          "source",
-          "paymentTypeId",
-          "batchId",
-          "tags",
-          "notes",
-          "transferId",
-          "entityId",
-          "toAddress",
-          "fromAddress",
-          "billDate",
-          "billDateTime",
-          "failureMessage",
-          "failureCode",
-          "datePaid",
-          "datePaidDateTime",
-          "dateCreated",
-          "transactionHash",
-          "feeAmount",
-          "feePaid",
-          "decodedSignature",
-          "agreementId"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "GeneralTransfersResponse": {
-        "description": "The response will be an array of JSON objects that represent transfer requests",
-        "properties": {
-          "transfers": {
-            "items": {
-              "$ref": "#/components/schemas/GeneralTransferResponse"
-            },
-            "type": "array"
-          }
-        },
-        "required": [
-          "transfers"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "HttpErrorCode.NotFound": {
-        "enum": [
-          404
-        ],
-        "type": "number"
-      },
-      "NotFoundErrorModel": {
-        "description": "The not found error model",
-        "properties": {
-          "code": {
-            "$ref": "#/components/schemas/HttpErrorCode.NotFound",
-            "description": "The HTTP error code for this error",
-            "example": 404
-          },
-          "message": {
-            "type": "string",
-            "description": "A message of why the error occurred",
-            "example": "No contract found for the given address"
-          }
-        },
-        "required": [
-          "code",
-          "message"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "HttpErrorCode.BadRequest": {
-        "enum": [
-          400
-        ],
-        "type": "number"
-      },
-      "BadRequestErrorModel": {
-        "description": "The bad request error model",
-        "properties": {
-          "code": {
-            "$ref": "#/components/schemas/HttpErrorCode.BadRequest",
-            "description": "The HTTP error code for this error",
-            "example": 400
-          },
-          "message": {
-            "type": "string",
-            "description": "A detailed message of why the error occurred",
-            "example": "Cannot enable auto invoicing for variable rate items"
-          }
-        },
-        "required": [
-          "code",
-          "message"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "CreateTransferRequest": {
-        "properties": {
-          "invoiceId": {
-            "type": "string",
-            "description": "The unique identifier for a given invoice from your invoice system (e.g. Stripe, Chargify)",
-            "example": "ch_3Ljpa52eZvKYlo2C1VHbn91O"
-          },
-          "amount": {
-            "type": "string",
-            "description": "The amount to transfer, denominated either in USD if field usd is set to true or the given token (including decimals)",
-            "example": "1000000000"
-          },
-          "token": {
-            "type": "string",
-            "description": "The address of the ERC20 token being transferred",
-            "example": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
-          },
-          "usd": {
-            "type": "boolean",
-            "description": "Whether or not the amount is denominated in USD or the given token. If denominated in USD, the amount will be converted to the token amount at the time of processing. The exchange rate is retrieved from an on-chain Chainlink oracle. Conducting this conversion on-chain costs gas, thus consider only using this feature if converting from a non-stable coin (e.g. WETH).",
-            "example": false
-          },
-          "itemId": {
-            "type": "string",
-            "description": "The ID of the item this transfer relates to.",
-            "example": "a3effd58-7e10-4012-8917-329cc882f79d"
-          },
-          "billDate": {
-            "type": "number",
-            "format": "double",
-            "description": "The approximate time at which to process the given transfer request. This needs to be formatted as a Unix timestamp in seconds. If 0, the transfer request will be processed \"immediately\" (as soon as the Loop bot network picks it up)",
-            "example": 1664096943
-          },
-          "to": {
-            "type": "string",
-            "description": "The address receiving the transfer",
-            "example": "0x0f2672BA12aed17BEe075F7AEabC24b98E3098Ca"
-          },
-          "from": {
-            "type": "string",
-            "description": "The address sending the transfer",
-            "example": "0xad4efce746f129a9df375af2ddcf9097531eb466"
-          },
-          "signature": {
-            "type": "string",
-            "description": "A signature of the above 6 parameters",
-            "example": "0x7c4e1650d88f08e24f..."
-          },
-          "entityId": {
-            "type": "string",
-            "description": "The ID of the entity the payment relates to",
-            "example": "97f41ed9-cf70-4548-b5aa-88f0083e3305"
-          },
-          "networkId": {
-            "type": "number",
-            "format": "double",
-            "description": "The network to process the given transaction on. 1:  “mainnet”, 5: “goerli”, 56: “bnb”, 97: “chapel (BNB testnet)”, 137: “polygon”, 42161: “arbitrum”, 80001: “mumbai (Polygon testnet)”",
-            "example": 5
-          },
-          "tagIds": {
-            "items": {
-              "type": "number",
-              "format": "double"
-            },
-            "type": "array",
-            "description": "A list of tag IDs to associate with the transfer",
-            "example": [
-              1,
-              2,
-              3
-            ]
-          },
-          "notes": {
-            "type": "string",
-            "description": "Additional comments from the transfer initiator"
-          }
-        },
-        "required": [
-          "invoiceId",
-          "amount",
-          "token",
-          "usd",
-          "itemId",
-          "to",
-          "from",
-          "entityId",
-          "networkId"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "CancelTransfersRequest": {
-        "properties": {
-          "transferIds": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array",
-            "description": "A list of transfer IDs to cancel",
-            "example": [
-              "401bb7e7-a7f4-406d-b66c-ce769fdde7ca"
-            ]
-          }
-        },
-        "required": [
-          "transferIds"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "Record_string.string-Array_": {
-        "properties": {},
-        "additionalProperties": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "type": "object",
-        "description": "Construct a type with a set of properties K of type T"
-      },
-      "GeneralItemResponse": {
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "The name of the item",
-            "example": "The Professional Plan"
-          },
-          "amount": {
-            "type": "number",
-            "format": "double",
-            "nullable": true,
-            "description": "The amount of the item, denoted in USD. Setting the value to 0 means the item's price is variable rate, and the price will be displayed as \"Price varies\" on the checkout page",
-            "example": 29.99
-          },
-          "frequency": {
-            "type": "string",
-            "nullable": true,
-            "description": "The frequency with which to charge the item. Valid values: [HOUR, DAY, WEEK, MONTH, YEAR]",
-            "example": "MONTH"
-          },
-          "frequencyCount": {
-            "type": "number",
-            "format": "double",
-            "description": "The frequency count with which to charge the item. Used in combination with frequency e.g. every 2 weeks, every 1 month. A frequency count of 0 denotes a one time payment",
-            "example": 1
-          },
-          "acceptedTokens": {
-            "$ref": "#/components/schemas/Record_string.string-Array_",
-            "deprecated": true
-          },
-          "externalId": {
-            "type": "string",
-            "nullable": true,
-            "description": "A Stripe or Chargebee Item ID",
-            "example": "price_1ObTC0EsKlmFX3FHDjZnmim1"
-          },
-          "active": {
-            "type": "boolean",
-            "description": "True means agreements can still be made with this item.",
-            "example": true
-          },
-          "priceMetadata": {
-            "type": "string",
-            "nullable": true,
-            "description": "Optional details related to the payment amount displayed in the cart on the hosted payment page",
-            "example": "Increases to $200 after 2 weeks"
-          },
-          "autoInvoice": {
-            "type": "boolean",
-            "description": "Defaults to false. If true, then invoices will be automatically generated via the auto-invoicing feature. Delegated signing must be turned on for the entity and an inbound treasury wallet. Please contact Loop (support@loopcrypto.xyz) to have these enabled",
-            "example": true
-          },
-          "initialOffset": {
-            "type": "number",
-            "format": "double",
-            "description": "Specified in days. Says when the first invoice should be created relative to the date/time of the Item's creation",
-            "example": 1
-          },
-          "itemId": {
-            "type": "string",
-            "description": "The ID of the item",
-            "example": "2a697faf-8fdb-4aab-be20-64db0cef7dd5"
-          },
-          "entityId": {
-            "type": "string",
-            "description": "The ID of the entity. Found on your company dashboard",
-            "example": "4d1f3191-935b-40c5-b91e-37e1e3700bac"
-          },
-          "url": {
-            "type": "string",
-            "description": "The checkout URL for the item",
-            "example": "https://checkout.loopcrypto.xyz/4d1f3191-935b-40c5-b91e-37e1e3700bac/2a697faf-8fdb-4aab-be20-64db0cef7dd5"
-          },
-          "type": {
-            "type": "string",
-            "description": "Item classification",
-            "example": "Subscription"
-          },
-          "category": {
-            "type": "string",
-            "nullable": true,
-            "description": "The merchant category code (also known as an MCC) in words",
-            "example": "Books, Periodicals, and Newspapers"
-          },
-          "categoryCode": {
-            "type": "number",
-            "format": "double",
-            "nullable": true,
-            "description": "The merchant category code (also known as an MCC)",
-            "example": 5192
-          }
-        },
-        "required": [
-          "name",
-          "amount",
-          "frequency",
-          "frequencyCount",
-          "acceptedTokens",
-          "active",
-          "priceMetadata",
-          "autoInvoice",
-          "initialOffset",
-          "itemId",
-          "entityId",
-          "url",
-          "type",
-          "category",
-          "categoryCode"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "GeneralItemsResponse": {
-        "description": "The response will be an array of JSON objects that represents an item",
-        "properties": {
-          "items": {
-            "items": {
-              "$ref": "#/components/schemas/GeneralItemResponse"
-            },
-            "type": "array"
-          }
-        },
-        "required": [
-          "items"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "CreateItemRequest": {
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "The name of the item",
-            "example": "The Professional Plan"
-          },
-          "amount": {
-            "type": "number",
-            "format": "double",
-            "description": "The amount of the item, denoted in USD. Setting the value to 0 means the item's price is variable rate, and the price will be displayed as \"Price varies\" on the checkout page",
-            "example": 29.99
-          },
-          "frequency": {
-            "type": "string",
-            "description": "The frequency with which to charge the item. Valid values: [HOUR, DAY, WEEK, MONTH, YEAR]",
-            "example": "WEEK"
-          },
-          "frequencyCount": {
-            "type": "number",
-            "format": "double",
-            "description": "The frequency count with which to charge the item. Used in combination with frequency e.g. every 2 weeks, every 1 month. A frequency count of 0 denotes a one time payment",
-            "example": 2
-          },
-          "acceptedTokens": {
-            "$ref": "#/components/schemas/Record_string.string-Array_",
-            "deprecated": true
-          },
-          "entityId": {
-            "type": "string",
-            "description": "The ID of the entity. Found on your company dashboard",
-            "example": "4d1f3191-935b-40c5-b91e-37e1e3700bac"
-          },
-          "externalId": {
-            "type": "string",
-            "nullable": true,
-            "description": "External subscription ID if applicable. E.g Stripe Subscription ID",
-            "example": "orbf9e15-e54b-11ec-b21b-06d24995f946"
-          },
-          "active": {
-            "type": "boolean",
-            "description": "True means agreements can still be made with this item.",
-            "example": true
-          },
-          "priceMetadata": {
-            "type": "string",
-            "nullable": true,
-            "description": "Optional details related to the payment amount displayed in the cart on the hosted payment page",
-            "example": "Increases to $200 after 2 weeks"
-          },
-          "typeId": {
-            "type": "number",
-            "format": "double",
-            "description": "Classification of the item. See the GET call to get the most current list",
-            "example": "1"
-          },
-          "categoryId": {
-            "type": "number",
-            "format": "double",
-            "description": "The merchant category code (also known as an MCC) ID",
-            "example": 10
-          },
-          "autoInvoice": {
-            "type": "boolean",
-            "description": "Defaults to false. If true, then invoices will be automatically generated via the auto-invoicing feature. Delegated signing must be turned on for the entity and an inbound treasury wallet. Please contact Loop (support@loopcrypto.xyz) to have these enabled",
-            "example": false
-          },
-          "initialOffset": {
-            "type": "number",
-            "format": "double",
-            "description": "Specified in days. Says when the first invoice should be created relative to the date/time of the Item's creation",
-            "example": 1
-          }
-        },
-        "required": [
-          "name",
-          "amount",
-          "frequencyCount",
-          "typeId"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "UpdateItemRequest": {
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "The name of the item",
-            "example": "The Professional Plan"
-          },
-          "amount": {
-            "type": "number",
-            "format": "double",
-            "description": "The amount of the item, denoted in USD. Setting the value to 0 means the item's price is variable rate, and the price will be displayed as \"Price varies\" on the checkout page",
-            "example": 29.99
-          },
-          "frequency": {
-            "type": "string",
-            "description": "The frequency with which to charge the item. Valid values: [HOUR, DAY, WEEK, MONTH, YEAR]",
-            "example": "WEEK"
-          },
-          "frequencyCount": {
-            "type": "number",
-            "format": "double",
-            "description": "The frequency count with which to charge the item. Used in combination with frequency e.g. every 2 weeks, every 1 month. A frequency count of 0 denotes a one time payment",
-            "example": 2
-          },
-          "acceptedTokens": {
-            "$ref": "#/components/schemas/Record_string.string-Array_",
-            "deprecated": true
-          },
-          "entityId": {
-            "type": "string",
-            "description": "The ID of the entity. Found on your company dashboard",
-            "example": "4d1f3191-935b-40c5-b91e-37e1e3700bac"
-          },
-          "externalId": {
-            "type": "string",
-            "description": "External subscription ID if applicable. E.g Stripe Subscription ID",
-            "example": "orbf9e15-e54b-11ec-b21b-06d24995f946"
-          },
-          "active": {
-            "type": "boolean",
-            "description": "True means agreements can still be made with this item.",
-            "example": true
-          },
-          "priceMetadata": {
-            "type": "string",
-            "description": "Optional details related to the payment amount displayed in the cart on the hosted payment page",
-            "example": "Increases to $200 after 2 weeks"
-          },
-          "typeId": {
-            "type": "number",
-            "format": "double",
-            "description": "Classification of the item. See the GET call to get the most current list",
-            "example": "1"
-          },
-          "categoryId": {
-            "type": "number",
-            "format": "double",
-            "description": "The merchant category code (also known as an MCC) ID",
-            "example": 10
-          },
-          "autoInvoice": {
-            "type": "boolean",
-            "description": "Defaults to false. If true, then invoices will be automatically generated via the auto-invoicing feature. Delegated signing must be turned on for the entity and an inbound treasury wallet. Please contact Loop (support@loopcrypto.xyz) to have these enabled",
-            "example": false
-          },
-          "initialOffset": {
-            "type": "number",
-            "format": "double",
-            "description": "Specified in days. Says when the first invoice should be created relative to the date/time of the Item's creation",
-            "example": 1
-          },
-          "itemId": {
-            "type": "string",
-            "description": "The external ID of the item",
-            "example": "2a697faf-8fdb-4aab-be20-64db0cef7dd5"
-          }
-        },
-        "required": [
-          "itemId"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      }
-    },
-    "securitySchemes": {
-      "jwt": {
-        "type": "http",
-        "scheme": "bearer"
-      },
-      "api_key": {
-        "type": "apiKey",
-        "in": "header",
-        "name": "api-key"
-      },
-      "entity_id": {
-        "type": "apiKey",
-        "in": "header",
-        "name": "entity-id"
-      }
-    }
-  },
+  "openapi": "3.1.0",
   "info": {
-    "title": "Classic",
-    "version": "1.0.0",
-    "contact": {
-      "name": "Shane van Coller",
-      "email": "shane@loopcrypto.xyz"
-    }
-  },
-  "paths": {
-    "/api/v1/transfers": {
-      "get": {
-        "operationId": "ListTransfersRoute",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GeneralTransfersResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UnauthorizedErrorModel"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ForbiddenErrorModel"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/NotFoundErrorModel"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Unprocessable Content",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValidateErrorModel"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GeneralErrorModel"
-                }
-              }
-            }
-          },
-          "504": {
-            "description": "Gateway Timeout",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TimeoutErrorModel"
-                }
-              }
-            }
-          }
-        },
-        "description": "Retrieves a list of transfers associated with the authenticated entity. The request must include a valid API key with appropriate permissions. This endpoint is useful for managing and retrieving transfer details.",
-        "summary": "List transfers",
-        "tags": [
-          "Transfers"
-        ],
-        "security": [
-          {
-            "api_key": [],
-            "entity_id": []
-          }
-        ],
-        "parameters": [
-          {
-            "description": "Optional filter to retrieve transfers with a specific ID.",
-            "in": "query",
-            "name": "transferId",
-            "required": false,
-            "schema": {
-              "type": "string"
-            },
-            "example": "9f47a848-5c31-4a75-b09d-f5c234875db2"
-          },
-          {
-            "description": "Optional filter to retrieve transfers with a specific wallet address.",
-            "in": "query",
-            "name": "wallet",
-            "required": false,
-            "schema": {
-              "type": "string"
-            },
-            "example": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
-          },
-          {
-            "description": "Optional filter to retrieve transfers with a specific network ID.",
-            "in": "query",
-            "name": "networkId",
-            "required": false,
-            "schema": {
-              "format": "double",
-              "type": "number"
-            },
-            "example": 1
-          },
-          {
-            "in": "query",
-            "name": "entityId",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Optional pagination parameter to specify the page number of the results to return. Default is 1 which is the first page.",
-            "in": "query",
-            "name": "page",
-            "required": false,
-            "schema": {
-              "format": "double",
-              "type": "number"
-            },
-            "example": 1
-          },
-          {
-            "description": "Optional pagination parameter to specify the number of results per page. Default is 200, maximum is 200.",
-            "in": "query",
-            "name": "limit",
-            "required": false,
-            "schema": {
-              "format": "double",
-              "type": "number"
-            },
-            "example": 50
-          }
-        ]
-      },
-      "post": {
-        "operationId": "CreateTransfersRoute",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GeneralTransfersResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BadRequestErrorModel"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UnauthorizedErrorModel"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ForbiddenErrorModel"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Unprocessable Content",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValidateErrorModel"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GeneralErrorModel"
-                }
-              }
-            }
-          },
-          "504": {
-            "description": "Gateway Timeout",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TimeoutErrorModel"
-                }
-              }
-            }
-          }
-        },
-        "description": "Creates a new transfer associated with the authenticated entity. The request must include a valid API key with appropriate permissions.",
-        "summary": "Create transfer",
-        "tags": [
-          "Transfers"
-        ],
-        "security": [
-          {
-            "api_key": [],
-            "entity_id": []
-          }
-        ],
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "items": {
-                  "$ref": "#/components/schemas/CreateTransferRequest"
-                },
-                "type": "array"
-              }
-            }
-          }
-        }
-      }
+    "title": "OpenAPI Plant Store Mike",
+    "description": "A sample API that uses a plant store as an example to demonstrate features in the OpenAPI specification",
+    "license": {
+      "name": "MIT"
     },
-    "/api/v1/transfers/cancel": {
-      "patch": {
-        "operationId": "CancelTransfersRoute",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GeneralTransfersResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BadRequestErrorModel"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UnauthorizedErrorModel"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ForbiddenErrorModel"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Unprocessable Content",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValidateErrorModel"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GeneralErrorModel"
-                }
-              }
-            }
-          },
-          "504": {
-            "description": "Gateway Timeout",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TimeoutErrorModel"
-                }
-              }
-            }
-          }
-        },
-        "description": "Cancels one or more transfers associated with the authenticated entity. The request must include a valid API key with appropriate permissions.",
-        "summary": "Cancel transfers",
-        "tags": [
-          "Transfers"
-        ],
-        "security": [
-          {
-            "api_key": [],
-            "entity_id": []
-          }
-        ],
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CancelTransfersRequest"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/items": {
-      "get": {
-        "operationId": "ListItemsRoute",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GeneralItemsResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UnauthorizedErrorModel"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ForbiddenErrorModel"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Unprocessable Content",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValidateErrorModel"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GeneralErrorModel"
-                }
-              }
-            }
-          },
-          "504": {
-            "description": "Gateway Timeout",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TimeoutErrorModel"
-                }
-              }
-            }
-          }
-        },
-        "description": "Returns a list of items associated with the authenticated entity. The list can be filtered by item ID, entity ID, external ID, or active status. If no filters are provided, all items for the entity will be returned.\n\nRequired API permissions: `GetItems`",
-        "summary": "List items",
-        "tags": [
-          "Items"
-        ],
-        "security": [
-          {
-            "api_key": [],
-            "entity_id": []
-          }
-        ],
-        "parameters": [
-          {
-            "description": "Optional ID to filter items. If provided, returns only items matching this ID.",
-            "in": "query",
-            "name": "id",
-            "required": false,
-            "schema": {
-              "type": "string"
-            },
-            "example": "123e4567-e89b-12d3-a456-426614174000"
-          },
-          {
-            "description": "Optional array of entity IDs to filter items. If provided, returns only items associated with these entities.",
-            "in": "query",
-            "name": "entities",
-            "required": false,
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "example": [
-              "123e4567-e89b-12d3-a456-426614174000"
-            ]
-          },
-          {
-            "description": "Optional array of external IDs to filter items. If provided, returns only items matching these external IDs.",
-            "in": "query",
-            "name": "externalIds",
-            "required": false,
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "example": [
-              "123e4567-e89b-12d3-a456-426614174000"
-            ]
-          },
-          {
-            "description": "Optional boolean to filter items by active status. If provided, returns only items with this status.",
-            "in": "query",
-            "name": "active",
-            "required": false,
-            "schema": {
-              "type": "boolean"
-            },
-            "example": true
-          }
-        ]
-      },
-      "post": {
-        "operationId": "CreateItemsRoute",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GeneralItemsResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BadRequestErrorModel"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UnauthorizedErrorModel"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ForbiddenErrorModel"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Unprocessable Content",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValidateErrorModel"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GeneralErrorModel"
-                }
-              }
-            }
-          },
-          "504": {
-            "description": "Gateway Timeout",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TimeoutErrorModel"
-                }
-              }
-            }
-          }
-        },
-        "description": "Creates a new item associated with the authenticated entity that can be used to create a checkout link. The request must include a valid API key with appropriate permissions.\n\nRequired API permissions: `CreateItems`",
-        "summary": "Create item",
-        "tags": [
-          "Items"
-        ],
-        "security": [
-          {
-            "api_key": [],
-            "entity_id": []
-          }
-        ],
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "items": {
-                  "$ref": "#/components/schemas/CreateItemRequest"
-                },
-                "type": "array"
-              }
-            }
-          }
-        }
-      },
-      "patch": {
-        "operationId": "UpdateItemRoute",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GeneralItemsResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BadRequestErrorModel"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UnauthorizedErrorModel"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ForbiddenErrorModel"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Unprocessable Content",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValidateErrorModel"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GeneralErrorModel"
-                }
-              }
-            }
-          },
-          "504": {
-            "description": "Gateway Timeout",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TimeoutErrorModel"
-                }
-              }
-            }
-          }
-        },
-        "description": "Updates an existing item associated with the authenticated entity. The request must include a valid API key with appropriate permissions.\n\nRequired API permissions: `UpdateItems`",
-        "summary": "Update item",
-        "tags": [
-          "Items"
-        ],
-        "security": [
-          {
-            "api_key": [],
-            "entity_id": []
-          }
-        ],
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "items": {
-                  "$ref": "#/components/schemas/UpdateItemRequest"
-                },
-                "type": "array"
-              }
-            }
-          }
-        }
-      }
-    }
+    "version": "1.0.0"
   },
   "servers": [
     {
-      "url": "https://demo.api.loopcrypto.xyz",
-      "description": "Demo"
-    },
-    {
-      "url": "https://staging.api.loopcrypto.xyz",
-      "description": "Staging"
-    },
-    {
-      "url": "https://develop.api.loopcrypto.xyz",
-      "description": "Develop"
-    },
-    {
-      "url": "https://skilled-sawfly-active.ngrok-free.app",
-      "description": "Local"
+      "url": "http://sandbox.mintlify.com"
     }
   ],
-  "x-readme": {
-    "headers": [
-      {
-        "key": "ngrok-skip-browser-warning",
-        "value": "true"
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/plants": {
+      "get": {
+        "description": "Mike Returns all plants from the system that the user has access to",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The maximum number of results to return",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Plant response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Plant"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Creates a new plant in the store",
+        "requestBody": {
+          "description": "Plant to add to the store",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewPlant"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "plant response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Plant"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
       }
-    ]
+    },
+    "/plants/{id}": {
+      "delete": {
+        "description": "Deletes a single plant based on the ID supplied",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of plant to delete",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Plant deleted",
+            "content": {}
+          },
+          "400": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "webhooks": {
+    "/plant/webhook": {
+      "post": {
+        "description": "Information about a new plant added to the store",
+        "requestBody": {
+          "description": "Plant added to the store",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewPlant"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Return a 200 status to indicate that the data was received successfully"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Plant": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "The name of the plant",
+            "type": "string"
+          },
+          "tag": {
+            "description": "Tag to specify the type",
+            "type": "string"
+          }
+        }
+      },
+      "NewPlant": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Plant"
+          },
+          {
+            "required": [
+              "id"
+            ],
+            "type": "object",
+            "properties": {
+              "id": {
+                "description": "Identification number of the plant",
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          }
+        ]
+      },
+      "Error": {
+        "required": [
+          "error",
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
   }
 }
