@@ -46,9 +46,11 @@
             "group": "Online payments",
             "pages": [
               {
+                "pages":[
+                  "payments/widget"
+                ],
                 "group": "Widget",
                 "pages": [
-                  "payments/widget",
                   "payments/react",
                   "payments/web"
                 ]
