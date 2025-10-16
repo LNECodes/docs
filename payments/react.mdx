@@ -329,8 +329,323 @@ In addition to supplying the `state` and a human-readable `message` describing t
 
 <CodeGroup>
 
-``` filename
-// add code here
+```typescript PayInStateChangeEventIdle
+interface PayInStateChangeEventIdle {
+    /* no additional data is provided for the idle state */
+}
+```
+
+
+```typescript PayInStateChangeEventConfirmingBalance
+interface PayInStateChangeEventConfirmingBalance {
+    amount: string;
+    walletAddress: string;
+    chain: BlockchainNetwork;
+    networkName: string;
+    token: {
+        name: string;
+        logoUrl: string;
+        symbol: string;
+        decimals: number;
+        address: string;
+        networkId: number;
+        exchange: {
+            currency: string;
+            rate: number;
+            updated: number;
+            provider: string;
+        };
+    }
+}
+```
+
+
+```typescript PayInStateChangeEventConfirmingAuthorization
+interface PayInStateChangeEventConfirmingAuthorization {
+    minimumAuthorization: string | undefined;
+    contractAddress: string;
+    walletAddress: string;
+    chain: BlockchainNetwork;
+    networkName: string;
+    token: {
+        name: string;
+        logoUrl: string;
+        symbol: string;
+        decimals: number;
+        address: string;
+        networkId: number;
+        exchange: {
+            currency: string;
+            rate: number;
+            updated: number;
+            provider: string;
+        };
+    }
+}
+```
+
+
+```typescript PayInStateChangeEventUpdatingAuthorization
+interface PayInStateChangeEventUpdatingAuthorization {
+    suggestedAuthorization: string | undefined;
+    contractAddress: string;
+    walletAddress: string;
+    chain: BlockchainNetwork;
+    networkName: string;
+    token: {
+        name: string;
+        logoUrl: string;
+        symbol: string;
+        decimals: number;
+        address: string;
+        networkId: number;
+        exchange: {
+            currency: string;
+            rate: number;
+            updated: number;
+            provider: string;
+        };
+    }
+}
+```
+
+
+```typescript PayInStateChangeEventAuthorized
+interface PayInStateChangeEventAuthorized {
+}
+```
+
+
+```typescript PayInStateChangeEventSigningMessage
+interface PayInStateChangeEventSigningMessage {
+    walletAddress: string;
+    chain: BlockchainNetwork;
+    networkName: string;
+    networkId: number;
+}
+```
+
+
+```typescript PayInStateChangeEventCreatingPaymentMethod
+interface PayInStateChangeEventCreatingPaymentMethod {
+    token: {
+        name: string;
+        logoUrl: string;
+        symbol: string;
+        decimals: number;
+        address: string;
+        networkId: number;
+        exchange: {
+            currency: string;
+            rate: number;
+            updated: number;
+            provider: string;
+        };
+    }
+    walletAddress: string;
+    chain: BlockchainNetwork;
+    networkName: string;
+    customerId: string;
+    customerRefId?: string;
+}
+```
+
+
+```typescript PayInStateChangeEventCreatingCustomer
+interface PayInStateChangeEventCreatingCustomer {
+    walletAddress: string;
+    chain: BlockchainNetwork;
+    networkName: string;
+    token: {
+        name: string;
+        logoUrl: string;
+        symbol: string;
+        decimals: number;
+        address: string;
+        networkId: number;
+        exchange: {
+            currency: string;
+            rate: number;
+            updated: number;
+            provider: string;
+        };
+    }
+}
+```
+
+
+```typescript PayInStateChangeEventCreatingCustomer
+interface PayInStateChangeEventCreatingCustomer {
+    walletAddress: string;
+    chain: BlockchainNetwork;
+    networkName: string;
+    token: {
+        name: string;
+        logoUrl: string;
+        symbol: string;
+        decimals: number;
+        address: string;
+        networkId: number;
+        exchange: {
+            currency: string;
+            rate: number;
+            updated: number;
+            provider: string;
+        };
+    }
+}
+```
+
+
+```typescript PayInStateChangeEventCreatingPayment
+interface PayInStateChangeEventCreatingPayment {
+    token: {
+        name: string;
+        logoUrl: string;
+        symbol: string;
+        decimals: number;
+        address: string;
+        networkId: number;
+        exchange: {
+            currency: string;
+            rate: number;
+            updated: number;
+            provider: string;
+        };
+    }
+    amount: string;
+    amountType: "fiat" | "token";
+    walletAddress: string;
+    chain: BlockchainNetwork;
+    networkName: string;
+    customerId: string;
+    paymentMethodId: string;
+}
+```
+
+
+```typescript PayInStateChangeEventConfirmingPayment
+interface PayInStateChangeEventConfirmingPayment {
+    payinId: string;
+    merchantId: string;
+    amount: string;
+    amountType: "fiat" | "token";
+    billDate: number;
+    invoiceId: string;
+    description: string | null;
+    externalInvoiceRef: string | null;
+    payinType: "subscription" | "invoice";
+    payinStatus:
+        | "scheduled"
+        | "pending"
+        | "completed"
+        | "failed"
+        | "canceled"
+        | "uncollectible"
+        | "draft";
+    transaction: {
+        transactionId: string;
+        transactionUrl: string;
+        amountTransferred: string | null;
+        exchangeRate: {
+            currency: string;
+            price: string;
+            timestamp: number;
+        } | null; 
+    } | null;
+    paymentMethod: {
+        paymentMethodId: string;
+        paymentMethodName: string;
+        customer: {
+            customerId: string;
+            customerRefId: string | null;
+        }
+        networkId: number;
+        walletAddress: string;
+        isDefault: boolean;
+        status: string;
+        token: {
+            tokenId: string;
+            symbol: string;
+            address: string;
+            decimals: number;
+            exchangeRates: {
+                currency: string;
+                price: string;
+                timestamp: number;
+            }[];
+        };
+        preAuthorization: {
+            balance: string;
+            authorization: string;
+        };
+    };
+    payoutDestination: {
+        payoutDestinationId: string;
+        networkId: number;
+        walletAddress: string;
+    };
+    dateCreated: number;
+}
+```
+
+
+```typescript PayInStateChangeEventComplete
+interface PayInStateChangeEventComplete {
+    payinId: string;
+    merchantId: string;
+    amount: string;
+    amountType: "fiat" | "token";
+    billDate: number;
+    invoiceId: string;
+    description: string | null;
+    externalInvoiceRef: string | null;
+    payinType: "subscription" | "invoice";
+    payinStatus: "completed";
+    transaction: {
+        transactionId: string;
+        transactionUrl: string;
+        amountTransferred: string | null;
+        exchangeRate: {
+            currency: string;
+            price: string;
+            timestamp: number;
+        } | null; 
+    } | null;
+    paymentMethod: {
+        paymentMethodId: string;
+        paymentMethodName: string;
+        customer: {
+            customerId: string;
+            customerRefId: string | null;
+        }
+        networkId: number;
+        walletAddress: string;
+        isDefault: boolean;
+        status: string;
+        token: {
+            tokenId: string;
+            symbol: string;
+            address: string;
+            decimals: number;
+            exchangeRates: {
+                currency: string;
+                price: string;
+                timestamp: number;
+            }[];
+        };
+        preAuthorization: {
+            balance: string;
+            authorization: string;
+        };
+    };
+    payoutDestination: {
+        payoutDestinationId: string;
+        networkId: number;
+        walletAddress: string;
+    };
+    dateCreated: number;
+}
 ```
 
 </CodeGroup>
@@ -379,9 +694,7 @@ You can provide **optional** properties to allow for customization of the UI to 
 
 The component's UI can be customized by providing a string of CSS custom properties and values. The values assigned to the property must be valid CSS for that type of property, which corresponds to a CSS declaration. In the table below, each custom property is linked to the corresponding CSS property it represents to ensure clarity.
 
-JSX
-
-```
+```jsx
 <LoopConnectPayIn 
     // other props
     customStyles={`
