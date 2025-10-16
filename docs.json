@@ -30,8 +30,7 @@
             "group": "Getting started",
             "pages": [
               "payments/create-account",
-              "payments/webhooks",
-              "payments/widget"
+              "payments/webhooks"
             ]
           }, 
           {
