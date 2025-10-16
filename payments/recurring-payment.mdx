@@ -1,4 +1,26 @@
 ---
 title: "Recurring payments"
-description: "Description of your new file."
+description: "Charge a paymentMethod on file "
 ---
+
+Loop allows you to easily charge a Customer's `paymentMethod` without having to ask the user to take an action. To do this, you will need the `customerId` or `paymentmethodId.`
+
+## **Check the status of the payment method (recommended)**
+
+`Payins` process on their `billDate` only if the `paymentMethod` has a `preAuthorization` `balance` and `authorization` that is equal to or above the `amount`. If this is not the case, the `payin` will sit in `scheduled` while Loop retries every 3 minutes for 7 days.
+
+Thus, before charging a customer, you may want to check the status of the `paymentMethod` on file. You can do this using the <u>GET payment method</u> endpoint by passing in the `paymentMethodId`. If you need to retrieve the `paymentMethodId` you can use the <u>List payment method</u> endpoint.
+
+## **Create a payin in the Loop API to send information about the payin**
+
+Call the <u>create payin</u> endpoint to create a payment. Payins can be created at any point prior to or when a payment is due. A payin that is create with a `billDate` that has passed will be processed immediately.
+
+The `payin` will charge the default `paymentMethod` associated with the `customerId`. You can optionally pass in another `paymentMethodId` to not charge the default.
+
+The `payin` will respond with the status ( `preAuthorization` `balance`and`authorizationon`) of the `customer's` `paymentMethod`.
+
+## **Listen to webhooks to find out when the payin processes**
+
+Since subsequent payments are completed without the Pay component, you will need to listen to webhooks to be notified when a transaction completes onchain. When the payment confirms onchain, the `payment.processed` webhook will fire.
+
+If there is a pending payin that is 10 minutes past due, the `missed_payin.payment` webhook will fire.

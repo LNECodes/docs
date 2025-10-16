@@ -1,0 +1,19 @@
+---
+title: "Retries and failures"
+description: "How Loop handles payments"
+---
+
+### **\
+Processing & Retries**
+
+When payins comes due, Loop checks wallet balance and authorization every 10 minutes. Once sufficient funds and approval are confirmed, the transaction is sent on-chain. This process virtually eliminates transaction failures.
+
+### **Potential Failures**
+
+Transactions can only fail if someone maliciously moves funds or changes approvals between our balance check and transaction submission. This requires:
+
+- Developer-level blockchain knowledge
+- Active monitoring of our pending transactions
+- Submitting competing transactions with higher fees
+
+On fast blockchains like Solana (millisecond confirmation times), this window is extremely narrow. If someone acts maliciously in this way, you'll notice the failure immediately and may want to reconsider them as a customer.
