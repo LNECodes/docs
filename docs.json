@@ -16,8 +16,8 @@
           {
             "group": "Welcome",
             "pages": [
-              "index", 
-              "key-terminology", 
+              "index",
+              "key-terminology",
               "tokens-networks",
               "fiat-countries"
             ]
@@ -34,22 +34,22 @@
               "payments/create-account",
               "payments/webhooks"
             ]
-          }, 
-            {
-              "group": "Accept payments",
-              "pages": [
-                {
-                  "group": "Use the pay component",
-                  "pages": [
-                    "payments/widget",
-                    "payments/react",
-                    "payments/web"
-                  ]
-                },
-                "payments/no-widget",
-                "payments/recurring-payment"
-              ]
-            },
+          },
+          {
+            "group": "Accept payments",
+            "pages": [
+              {
+                "group": "Use the pay component",
+                "pages": [
+                  "payments/widget",
+                  "payments/react",
+                  "payments/web"
+                ]
+              },
+              "payments/no-widget",
+              "payments/recurring-payment"
+            ]
+          },
           {
             "group": "Other topics",
             "pages": [
@@ -93,10 +93,10 @@
           {
             "group": "Overview",
             "pages": [
-              "resources/architecture", 
-              "resources/component-library" 
+              "resources/architecture",
+              "resources/component-library"
             ]
-          }, 
+          },
           {
             "group": "Resources",
             "pages": [
@@ -112,15 +112,6 @@
             "group": "API documentation",
             "pages": [
               "api-reference/introduction"
-            ]
-          },
-          {
-            "group": "Endpoint examples",
-            "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
             ]
           }
         ]
