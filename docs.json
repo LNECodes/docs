@@ -42,23 +42,21 @@
               "payments/webhooks"
             ]
           }, 
-          {
-            "group": "Online payments",
-            "pages": [
-              {
-                "pages":[
-                  "payments/widget"
-                ],
-                "group": "Widget",
-                "pages": [
-                  "payments/react",
-                  "payments/web"
-                ]
-              },
-              "payments/no-widget",
-              "payments/recurring-payment"
-            ]
-          }, 
+            {
+              "group": "Online payments",
+              "pages": [
+                {
+                  "group": "Use the pay component",
+                  "pages": [
+                    "payments/widget",
+                    "payments/react",
+                    "payments/web"
+                  ]
+                },
+                "payments/no-widget",
+                "payments/recurring-payment"
+              ]
+            },
           {
             "group": "Developer resources",
             "pages": [
