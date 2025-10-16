@@ -1,4 +1,214 @@
 ---
 title: "Web component"
-description: "Description of your new file."
 ---
+
+In addition to React components, Loop Connect offers [<u>native Web Components</u>](https://developer.mozilla.org/en-US/docs/Web/API/Web_components) that provide identical functional, with broader environmental compatibility. For a more detailed explanation of usage, functionality, and types, refer to the `LoopConnectPayIn` component page.
+
+# **Collect payment**
+
+Loop Connect's `pay-in` web component renders a customizable UI for users to connect their wallet, select their token, and complete the payment authorization process.
+
+```html
+<loop-connect-pay-in 
+    payment-usd-amount="199">
+</loop-connect-pay-in>
+```
+
+## **Attributes**
+
+The following table maps the custom attributes available for the `loop-connect-pay-in` web component to the cooresponding properties of the standard React component.
+
+| **Attribute name**                   | **Equivalent React property**     |
+| :----------------------------------- | :-------------------------------- |
+| `payment-usd-amount` **(required)**  | `paymentUsdAmount`                |
+| `minimum-authorization-usd-amount`   | `minimumAuthorizationUsdAmount`   |
+| `suggested-authorization-usd-amount` | `suggestedAuthorizationUsdAmount` |
+| `customer-ref-id`                    | `customerRefId`                   |
+| `subscription-ref-id`                | `subscriptionRefId`               |
+| `invoice-ref-id`                     | `invoiceRefId`                    |
+| `await-confirmation`                 | `awaitConfirmation`               |
+| `state-notification`                 | `stateNotification`               |
+| `failure-notification`               | `failureNotification`             |
+| `confirming-notification`            | `confirmingNotification`          |
+| `complete-notification`              | `completeNotification`            |
+| `authorized-notification`            | `authorizedNotification`          |
+| `custom-styles`                      | `customStyles`                    |
+| `disabled`                           | `disabled`                        |
+| `disable-submit`                     | `disableSubmit`                   |
+| `bill-date`                          | `billDate`                        |
+
+Details on each attribute can be found in sections for payment details, notifications, and styling.
+
+## **PayIn events**
+
+The `loop-connect-pay-in` component also allows **optional** event callback handlers to be configured, just as the React component does. The callback functions take the form `({ detail: EventType }) => void`, where `detail` is within the `CustomEvent` callback object. Here, `EventType` is used as a placeholder to represent the individually defined type for each event. The specification for each event type can be found documented along with the React version of this component.
+
+| **Custom event**       | **Handler attribute / property** | **Callback object type**         |
+| :--------------------- | :------------------------------- | :------------------------------- |
+| `ready`                | `onready`                        | `PayInReadyEvent`                |
+| `readyfailed`          | `onreadyfailed`                  | `PayInReadyFailedEvent`          |
+| `tokenchange`          | `ontokenchange`                  | `PayInTokenChangeEvent`          |
+| `statechange`          | `onstatechange`                  | `PayInStateChangeEvent`          |
+| `authorizationupdated` | `onuthorizationdpdated`          | `PayInAuthorizationUpdatedEvent` |
+| `customercreated`      | `oncustomercreated`              | `PayInCustomerCreatedEvent`      |
+| `created`              | `oncreated`                      | `PayInCreatedEvent`              |
+| `confirmed`            | `onconfirmed`                    | `PayInConfirmedEvent`            |
+| `failure`              | `onfailure`                      | `PayInFailedEvent`               |
+
+Additional details on each event and its return type can be found in the PayIn events section. As with the React version of this component, the events `walletchange` and `networkchange` can also both be captured using `onwalletchange` and `onnetworkchange` respectively from the Web Component, in addition the handlers passed to `initLoopConnect()` outlined on the initialization page.
+
+### **Custom event listener**
+
+Listen to the component for custom events by selecting the element and calling its native `addEventListener` method to attach a listener that executes and receives a data object when the event has been triggered.
+
+```html
+<loop-connect-pay-in 
+    id="payin"
+    payment-usd-amount="199">
+</loop-connect-pay-in>
+
+<script>
+    // Select the component by its "id" attribute
+    const payin = document.getElementById('payin');
+
+    // Define the event handler function
+    const handlePayInReady = (event) => console.log('The payin component is ready.', event);
+
+    // Add an event listener and attach the handler function
+    payin.addEventListener('ready', handlePayInReady);
+</script>
+```
+
+### **Event handler property**
+
+As in standard in Javascript, event handlers can be assigned directly to the selected element's event handler properties.
+
+```html
+<loop-connect-pay-in 
+    id="payin"
+    payment-usd-amount="199">
+</loop-connect-pay-in>
+
+<script>
+    // Select the component by its "id" attribute
+    const payin = document.getElementById('payin');
+
+    // Define the event handler function
+    const handlePayInReady = (event) => console.log('The payin component is ready.', event);
+
+    // Assign the event listener to the `onready` property
+    payin.onready = handlePayInReady;
+</script>
+```
+
+### **Event handler attribute**
+
+Likewise, an event handler function can be assigned to the component in HTML using an event handler attribute without the need to select the component.
+
+```html
+<script>
+    // Define the event handler function, which will be assigned to the 'onready' attribute in html
+    const handlePayInReady = (event) => console.log('The payin component is ready.', event);
+</script>
+
+<loop-connect-pay-in 
+    payment-usd-amount="199"
+    onready="handlePayInReady(event)">
+</loop-connect-pay-in>
+```
+
+# **Quickstart examples**
+
+Below are a few examples in common JS frameworks that implement the "PayIn" component, adding a listener for the `statechange` event.
+
+<CodeGroup>
+
+```html HTML/JS
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Loop Connect</title>
+        <script type="module">
+            import { initLoopConnect } from '@loop-crypto/connect';
+
+            initLoopConnect({
+                apiKey: "your-apiKey-here",
+                entityId: "your-entityId-here",
+                merchantId: "your-merchantId-here",
+            });
+        </script>
+    </head>
+    <body>
+        <loop-connect-pay-in
+            id="payIn"
+            payment-usd-amount="100"
+        ></loop-connect-pay-in>
+        <script>
+            const payIn = document.getElementById("payIn");
+            payIn.addEventListener('statechange', (event) => { 
+                console.log(`State changed: ${event.detail.message}`);
+            })
+        </script>
+    </body>
+</html>
+```
+
+
+```javascript VueJS
+<script setup>
+    import { ref, onMounted } from "vue";
+    import { initLoopConnect } from '@loop-crypto/connect';
+
+    initLoopConnect({
+        apiKey: "your-apiKey-here",
+        entityId: "your-entityId-here",
+        merchantId: "your-merchantId-here",
+    });
+
+    const payIn = ref(null);
+
+    onMounted(() => {
+        payIn.value.addEventListener("statechange", (event) => {
+            console.log(`State changed: ${event.detail.message}`);
+        });
+    });
+</script>
+
+<template>
+    <loop-connect-pay-in
+        ref="payIn"
+        :payment-usd-amount="100"
+    ></loop-connect-pay-in>
+</template>
+```
+
+
+```javascript Svelte
+<script>
+    import { onMount } from 'svelte';
+    import { initLoopConnect } from '@loop-crypto/connect';
+
+    initLoopConnect({
+        apiKey: "your-apiKey-here",
+        entityId: "your-entityId-here",
+        merchantId: "your-merchantId-here",
+    });
+
+    let payIn;
+
+    onMount(() => {
+        payIn.addEventListener("statechange", (event) => {
+            console.log(`State changed: ${event.detail.message}`);
+        });
+    });
+</script>
+
+<loop-connect-pay-in
+    bind:this={payIn}
+    payment-usd-amount="100"
+></loop-connect-pay-in>
+```
+
+</CodeGroup>
