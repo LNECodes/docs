@@ -26,3 +26,181 @@ Shell
 ```
 yarn add @loop-crypto/connect
 ```
+
+# **Initialization**
+
+Once the package has been added to your project, initialize the application by importing `initLoopConnect` at the top of your application stack. The function should be run once and will maintain the state of a connected wallet and configuration data across all pages and components within your application. For most React applications, this means calling the function in your entry file, just before `ReactDOMClient.createRoot()` is called.
+
+```javascript
+import { initLoopConnect } from "@loop-crypto/connect";
+
+initLoopConnect({
+    // configuration properties will go here
+});
+```
+
+## **Authentication**
+
+To initialize the application with the correct networks, tokens and contracts, you will import and call `initLoopConnect()` once at the highest level of your application. The function will receive an object of properties, which at minimum will include your `entityId` to uniquely identify your company (this will be provided to you), and a `jwtToken` to validate all requests and keep your data secure (more on generating your session token below).
+
+The initialization function also accepts a `merchantId` property, which identifies sub accounts or projects to help separate reporting and settings. If you are not setup with a merchant sub account, the `merchantId` can be excluded and will simply default to your `entityId` which provides access to all configured entity properties.
+
+```javascript
+initLoopConnect({
+    jwtToken: "your-jwt-token-here",
+    entityId: "your-entity-id-here",
+    merchantId: "your-optional-merchant-id-here",
+});
+```
+
+> 🎉 **You are now authenticated and ready to collect payment!** You may <u>skip directly to adding the "PayIn" component</u> now, or continuing configuring Loop Connect for a more custom experience.
+
+## **Events**
+
+The `initLoopConnect` function accepts **optional** event callback handlers to inform your application of important system-wide events.
+
+| **Event**         | **Callback types**   | **Description**                                                                                  |
+| :---------------- | :------------------- | :----------------------------------------------------------------------------------------------- |
+| `onInitialized`   | `InitializedEvent`   | The provided credentials were successful in obtaining the necessary data to ready the components |
+| `onInitFailed`    | `InitFailedEvent`    | The application failed to initialize                                                             |
+| `onWalletChange`  | `WalletChangeEvent`  | The user has changed their connected wallet                                                      |
+| `onNetworkChange` | `NetworkChangeEvent` | The user has changed their connected wallet's network                                            |
+
+> 💡Note that the `onWalletChange` and `onNetworkChange` events can also be [<u>triggered as an event by the </u>](https://docs.loopcrypto.xyz/docs/payin-component#payin-events)`PayIn`[<u>component</u>](https://docs.loopcrypto.xyz/docs/payin-component#payin-events) by assigning it the same properties.
+
+### **Callback prop types**
+
+The event callback functions receive data about the event through a single property, where each event receives an object with a different type. The following types correspond to the types specified in the "Events" table above.
+
+<CodeGroup>
+
+```javascript InitializedEvent
+interface InitializedEvent {
+    merchantId: string;
+}
+```
+
+
+```javascript InitializedEvent
+interface InitFailedEvent {
+    type: "initFailed";
+    message: string;
+    data: Record<string, any>;
+}
+```
+
+
+```javascript WalletChangeEvent
+interface WalletChangeEvent {
+    address: string | null;
+    ens: string | undefined;
+}
+```
+
+
+```javascript NetworkChangeEvent
+interface NetworkChangeEvent {
+    id: number;
+    name: string;
+    chain: "EVM" | "SOL";
+}
+```
+
+</CodeGroup>
+
+## **Advanced setup**
+
+### **Generating your JWT authentication token**
+
+Upon registration, you will be given an administrative `apiKey` to access our API. To generate the JWT token string provided to `initLoopConnect` as `jwtToken`, your `apiKey` must have `CreateAuthTokens` permission, which you can add to your key using our [<u>API reference's "Update API key" route</u>](https://docs.loopcrypto.xyz/reference/updateapikeyroute/).
+
+With `CreateAuthTokens` permissions set for your `apiKey`, you can now create a `jwtToken` string at any time using the [<u>API reference's "Create Auth Token" route</u>](https://docs.loopcrypto.xyz/reference/createauthtokenroute/). Authentication tokens have a finite expiration time that can be configured upon creation. Practically speaking, you will need to generate an expiring auth token for each user session using code, to avoid exposing your `apiKey` publicly. A sample application flow might look like this:
+
+#### **1. Backend: Generate a new JWT token**
+
+From your backend, call the auth token endpoint with your `apiKey` and `entityId`. In this example, they're assumed to be stored as environment variables `LOOP_API_KEY` and `LOOP_ENTITY_ID` and served via a custom endpoint.
+
+```javascript
+// Backend endpoint example
+app.post('/your-loop-token-endpoint', async (req, res) => {
+    try {
+        const response = await fetch('https://api.loopcrypto.xyz/api/v2/auth/token', {
+            method: 'POST',
+            headers: {
+                'api-key': process.env.LOOP_API_KEY,
+                'entity-id': process.env.LOOP_ENTITY_ID,
+            },
+            body: JSON.stringify({merchantId: process.env.LOOP_MERCHANT_ID)
+        });
+
+        const { token } = await response.json();
+        res.json({ token });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to create token' });
+    }
+});
+```
+
+#### **2. Frontend: Use JWT token**
+
+```javascript
+// Get JWT token from your backend
+const getJwtToken = async () => {
+    const response = await fetch('/your-loop-token-endpoint', {
+        method: 'POST'
+    });
+
+    const { token } = await response.json();
+    return token;
+};
+
+// Initialize with JWT token
+const initializeLoopConnect = async () => {
+    const jwtToken = await getJwtToken();
+  
+    await initLoopConnect({
+        jwtToken,
+        entityId: 'your-entity-id-here',
+    });
+};
+```
+
+### **Authentication while testing**
+
+To simply authentication while testing, you can directly provide your `apiKey` to the `iniLoopConnect()` function directly, removing the need to generate, updated, and provide a `jwtToken`.
+
+```javascript
+initLoopConnect({
+    apiKey: "your-api-key-here",
+    entityId: "your-entity-id-here",
+    merchantId: "your-merchant-id-here",
+});
+```
+
+If using an `apiKey` for testing, also providing a `jwtToken` will result in a failed initialization.
+
+> ⚠️ **Never expose API keys** through frontend application code deployed to a public production environment
+
+### **Awaiting **`initLoopConnect`
+
+The `initLoopConnect()` function is asynchronous, returning a `boolean` when resolved. The returning boolean can be used to determine initialization success or failure without providing event callbacks.
+
+```typescript
+const initializationSuccessful: boolean = await initLoopConnect({
+    jwtToken: "your-jwt-token-here",
+    entityId: "your-entity-id-here",
+    merchantId: "your-merchant-id-here",
+});
+
+// OR ----
+
+initLoopConnect({
+    jwtToken: "your-jwt-token-here",
+    entityId: "your-entity-id-here",
+    merchantId: "your-merchant-id-here",
+}).then((initializationSuccessful: boolean) => {
+    console.log(`Initialization successful: ${initializationSuccessful}`);
+});
+```
+
+When the initialization process has completed successfully, `initLoopConnect()` resolves and returns `true` at the same time the `onInitialized` callback is called if provided. If the initialization failed, `false` is returned and the `onInitFailed` callback is called if provided.
