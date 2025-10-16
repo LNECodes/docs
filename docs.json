@@ -109,10 +109,11 @@
         "tab": "API reference",
         "groups": [
           {
-            "group": "API documentation",
-            "pages": [
-              "api-reference/introduction"
-            ]
+            "group": "Classic",
+            "openapi": {
+              "source": "/openapi.classic.json",
+              "directory": "api-reference"
+            }
           }
         ]
       }
